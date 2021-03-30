@@ -312,11 +312,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
           this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + signature;
         }
         console.log('this.documentArr', this.documentArr);
+
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
             const formArray = this.uploadForm.get(
               `${this.FORM_ARRAY_NAME}_${subCategory.code}`
             ) as FormArray;
+
             formArray.push(this.getDocsFormControls());
           });
           if (this.isLoan360) {
@@ -331,9 +333,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ) as FormArray;
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
-            
-            this.isShowStatus[index] = docs['deferralStatusValue'] ? true : false;
-
+            this.isShowStatus[index] = docs['deferralStatus'] && docs['deferralStatus'] !== '0' ? true : false;
             this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
             // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
@@ -496,7 +496,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   navigateToApplicantList() {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-  }
+}
 
   removeDocumentFormControls(formArrayName: string, index: number) {
     const formArray = this.uploadForm.get(formArrayName) as FormArray;
@@ -1267,6 +1267,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
               .setValue(documentIds[index]);
           }
         });
+        // this.setDocumentDetails()
       });
   }
 
@@ -1318,12 +1319,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
         let documentDetails = res.ProcessVariables.documentDetail;
 
         let deferralStatusArr = documentDetails['deferralStatus'] ? [{
+          key: documentDetails['deferralStatus'],
           value: documentDetails['deferralStatusValue']
         }] : []
 
         obj.controls[index].get('deferralStatus').setValue(documentDetails.deferralStatus)
-        obj.controls[index].get('deferralStatus').setValue(deferralStatusArr)
-
+        obj.controls[index].get('deferralStatusArr').setValue(deferralStatusArr)
         this.toasterService.showSuccess('Requested Deferral Approval Sucessfully', '')
 
       } else {

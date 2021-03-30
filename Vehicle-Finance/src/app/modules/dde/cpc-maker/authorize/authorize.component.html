@@ -3,6 +3,8 @@
 
     <div class="authorize-demo" id="authorize-demo">
 
+        <form  [formGroup]="authorizeForm">
+
         <div class="panel-group" id="accordion">
             <div class="panel panel-default" *ngFor="let applicant of applicantDetails; let i = index">
                 <a class="panel-heading panel-primary title collapsed" data-toggle="collapse" data-parent="#accordion"
@@ -285,5 +287,7 @@
             </div>
 
         </div>
+    </form>
+
     </div>
 </div>

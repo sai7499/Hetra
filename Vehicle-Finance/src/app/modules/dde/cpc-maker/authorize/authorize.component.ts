@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormGroup } from "@angular/forms";
 
 @Component({
     selector: 'app-authorize',
@@ -8,6 +9,8 @@ import { Component, OnInit } from "@angular/core";
   export class AuthorizeComponent implements OnInit {
 
     applicantDetails: any = [];
+
+    authorizeForm: FormGroup;
 
     constructor() {}
 

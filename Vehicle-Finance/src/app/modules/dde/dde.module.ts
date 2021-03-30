@@ -45,6 +45,7 @@ import { LoanDetailsComponent } from './loan-account-details/loan-details.compon
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { FipdPdfComponent } from './pdf-generate/fipd-pdf/fipd-pdf.component';
 import { AdditionalCollateralListComponent } from './additional-collateral-list/additional-collateral-list.component';
+import { ChartComponent } from '@modules/dashboard/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { AdditionalCollateralListComponent } from './additional-collateral-list/
     // DeviationsComponent,
     VehicleValuationComponent,
     // ViabilityDetailsComponent,
+    ChartComponent,
     CibilOdComponent,
     CibilOdListComponent,
     FiListComponent,
