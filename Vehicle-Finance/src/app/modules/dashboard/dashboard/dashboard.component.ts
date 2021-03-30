@@ -260,7 +260,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
   isExtUser: boolean;
   modalDetails = {
-    heading: 'Approval Conformation',
+    heading: 'Approval Confirmation',
     content: 'Are you sure you want to Approve?'
   }
   modalButtons: any = [

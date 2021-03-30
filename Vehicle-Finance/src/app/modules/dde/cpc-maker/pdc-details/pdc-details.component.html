@@ -8,16 +8,15 @@
                 </h3>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
                 <div class="col-lg-7 col-md-7 col-sm-7 text-right">
                     <button class="btn btn-primary btn-mar" (click)="addPdcUnit()" *ngIf="showPdcButton">Add PDC
                         Row</button>
-                    <!-- <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button> -->
                 </div>
-            </div>
+            </div> -->
             <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-                <div class="panel-group" id="accordion1">
+                <div class="panel-group" id="accordion1" *ngIf= "pdcCount && pdcCount > 0">
                     <div class="panel panel-default">
 
                         <div class="" id="headingTwo1">
@@ -205,14 +204,14 @@
                     </div>
 
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-5"></div>
                     <div class="col-lg-7 col-md-7 col-sm-7 text-right">
                         <button class="btn btn-primary btn-mar" (click)="addSPdcUnit()" *ngIf="showspdcButton">Add SPDC
                             Row</button>
                     </div>
-                </div>
-                <div class="panel-group" id="accordion2">
+                </div> -->
+                <div class="panel-group" id="accordion2" *ngIf= "spdcCount && spdcCount > 0">
                     <div class="panel panel-default">
                         <div class="" id="headingTwo2">
                             <h4 class="banner-sub">

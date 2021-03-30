@@ -979,7 +979,7 @@ export class CamComponent implements OnInit {
     };
     this.camService.getBackToSales(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == "0") {
-        this.toasterService.showSuccess("CAM Lead Is Successfully Submitted Back To Sales", "CAM Details");
+        this.toasterService.showSuccess("Lead sent back to sales successfully", "CAM Details");
         this.router.navigateByUrl('/pages/dashboard');
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'CAM Details');

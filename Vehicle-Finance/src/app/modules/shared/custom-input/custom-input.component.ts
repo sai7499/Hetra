@@ -517,8 +517,8 @@ export class CustomInputComponent
 
     this.inputError = false;
   }
-  // valueChange(){
-  //   this.inputValue = String(this.inputValue || '').toUpperCase();
-  // }
+  valueChange(){
+    this.inputValue = String(this.inputValue || '').toUpperCase();
+  }
 
 }
