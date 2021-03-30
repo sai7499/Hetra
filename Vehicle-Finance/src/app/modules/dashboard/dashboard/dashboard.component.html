@@ -76,10 +76,9 @@
                             formControlName="deferralType">
                         </app-vf-custom-select>
                     </div>
-                    <div *ngIf="displayTabs?.ApprovalDashboard == activeTab"
+                    <!-- <div *ngIf="displayTabs?.ApprovalDashboard == activeTab"
                         class="form-group col-sm-6 col-md-3 col-lg-3 ">
                         <label for="status">Deferral Document Name</label>
-                        <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
                         <div>
                             <ng-autocomplete class="custom-select-box" [data]="defDocNames" [searchKeyword]="'item'"
                                 (selected)='selectDocNameEvent($event)' (inputChanged)='onDocNameSearch($event)'
@@ -89,10 +88,6 @@
                             </ng-autocomplete>
 
                             <div class="invalid-feedback">
-                                <!-- <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
-            </div> -->
-                                <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
-              required</div> -->
                             </div>
                             <ng-template #favDocNameTemplate let-item>
                                 <a [innerHTML]="item"></a>
@@ -101,6 +96,14 @@
                                 <div [innerHTML]="notFound"></div>
                             </ng-template>
                         </div>
+                    </div> -->
+                    <div  *ngIf="displayTabs?.ApprovalDashboard == activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="startDate">Deferral Date</label>
+                        <kendo-datepicker class="form-control" formControlName="deferralDate"
+                            [format]="'dd/MM/yyyy'" placeholder="Deferral Date"
+                            [activeView]="'decade'">
+                        </kendo-datepicker>
+
                     </div>
                 </div>
                 <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab"
@@ -521,7 +524,7 @@
                     data-toggle="tab">Tranche Disbursement</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
                 [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Defferal Approval</a></li>
+                    data-toggle="tab">Deferral Approval</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
@@ -1174,12 +1177,12 @@
                                     <button style="width: 84px;" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal">Reject</button>
                                 </div> -->
                                 <div class="row" style="margin: 0 5px 0 5px;">
-                                    <a title="View DDE" (click)="onViewDDE(item)" style="margin: 5px;"><i
+                                    <a data-tooltip="View DDE" (click)="onViewDDE(item)" style="margin: 5px;"><i
                                             class="fa fa-eye cursor-pointer" aria-hidden=""></i></a>
-                                    <a title="Approve" (click)="onApproveClick(item)"
+                                    <a data-tooltip="Approve" (click)="onApproveClick(item)"
                                         style="margin: 5px; color: lightgreen;"><i
                                             class="fa fa-thumbs-up cursor-pointer" aria-hidden=""></i></a>
-                                    <a title="Reject" data-toggle="modal" (click)="onRejectClick(item)"
+                                    <a data-tooltip="Reject" data-toggle="modal" (click)="onRejectClick(item)"
                                         data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
                                             class="fa fa-thumbs-down cursor-pointer" aria-hidden=""></i></a>
                                 </div>
