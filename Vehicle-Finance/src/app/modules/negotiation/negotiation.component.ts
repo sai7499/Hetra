@@ -478,6 +478,11 @@ export class NegotiationComponent implements OnInit {
           this.collectedPDCvalueCheck = [{ rule: collectedpdcvalue => collectedpdcvalue > pdcvalue, msg: 'value should not be greater than required pdc' }];    
        }
     });
+    if(collectedspdcvalue > spdcvalue) {
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setErrors({'incorrect': true})
+    } else {
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setErrors(null);
+    }
    
    if (requiredNoofCheques && collectedNoofCheques && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
       this.isNeededApproval = true;
@@ -2821,9 +2826,9 @@ setCrosSell(i,val){
   }
 
   onSubmit() {
-    if(this.onApproveOrSave != 'approval') {
-      this.onApprovePdcSpdc();
-    }
+    // if(this.onApproveOrSave != 'approval') {
+    //   this.onApprovePdcSpdc();
+    // }
     // this.getLeadId();
     this.isDirty = true;
     this.onformsubmit = true;
@@ -2874,6 +2879,9 @@ setCrosSell(i,val){
     if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
     this.getLeadId();
     const formData = this.createNegotiationForm.getRawValue();
+    if(this.onApproveOrSave != 'approval') {
+      this.onApprovePdcSpdc();
+    }
     //console.log('Savedata',formData);
     this.Applicants = [];
     this.LeadReferenceDetails.forEach((element) => {
