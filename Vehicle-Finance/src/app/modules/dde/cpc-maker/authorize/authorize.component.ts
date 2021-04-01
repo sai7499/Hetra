@@ -236,8 +236,8 @@ export class AuthorizeComponent implements OnInit {
                 nwStateCode: element.nwStateCode,
                 nwStateName: element.nwStateName,
                 ucic: element.ucic,
-                aadharProof: [ID_PROOF],
-                addressProof: [ADDRESS_PROOF],
+                aadharProof: [element.documents.ID_PROOF],
+                addressProof: [element.documents.ADDRESS_PROOF],
                 // aadharProof: JSON.parse(documents.ID_PROOF).length > 0 ? documents.ID_PROOF : ID_PROOF,
                 // addressProof: JSON.parse(documents.ADDRESS_PROOF).length > 0 ? documents.ADDRESS_PROOF : ADDRESS_PROOF,
                 documents: element.documents
