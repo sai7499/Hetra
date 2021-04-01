@@ -417,6 +417,7 @@ export class PdcDetailsComponent implements OnInit {
     if (this.roleType == '4') {
       // this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/authorize`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
     }

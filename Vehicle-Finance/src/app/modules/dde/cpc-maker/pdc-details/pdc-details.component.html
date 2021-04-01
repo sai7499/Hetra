@@ -16,7 +16,7 @@
                 </div>
             </div> -->
             <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-                <div class="panel-group" id="accordion1" *ngIf= "pdcCount && pdcCount > 0">
+                <div class="panel-group" id="accordion1" *ngIf="pdcCount && pdcCount > 0">
                     <div class="panel panel-default">
 
                         <div class="" id="headingTwo1">
@@ -211,7 +211,7 @@
                             Row</button>
                     </div>
                 </div> -->
-                <div class="panel-group" id="accordion2" *ngIf= "spdcCount && spdcCount > 0">
+                <div class="panel-group" id="accordion2" *ngIf="spdcCount && spdcCount > 0">
                     <div class="panel panel-default">
                         <div class="" id="headingTwo2">
                             <h4 class="banner-sub">
@@ -460,8 +460,7 @@
 
                             <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12 cus-ml" *ngIf="isCpcCheque">
                                 <div class="form-group">
-                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12"
-                                        for="cod">Received
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
                                         Cheques</label>
                                     <div class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12">
                                         <input class="ml" type="checkbox" formControlName="isChequeReceived" />
@@ -478,17 +477,14 @@
                                 <div class="form-group">
 
                                     <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">
-                                        <i aria-hidden="true"
-                                            class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                                        <i aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer"
                                             id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
                                     </label>
 
                                     <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod"
                                         *ngIf="documentId">
-                                        <i aria-hidden="true"
-                                            class="fa fa-eye fa-3 custom-file-label cursor-pointer"
-                                            id="add_more_documents_upload1a"
-                                            (click)="uploadDoc()"></i>
+                                        <i aria-hidden="true" class="fa fa-eye fa-3 custom-file-label cursor-pointer"
+                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
                                     </label>
                                 </div>
                             </div>
@@ -535,14 +531,16 @@
                         'Acknowledge' : 'Submit'}} </button>
 
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
-                           (click)="myModal = true" >Submit to CPC Checker</a></button>
-                            <!-- data-toggle="modal" data-target="#myModal" -->
+                            (click)="myModal = true">Submit to CPC Checker</a></button>
+                    <!-- data-toggle="modal" data-target="#myModal" -->
 
                     <button class="btn btn-primary dash_href marginAdd" (click)="isSendCredit = true"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
 
-                    <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
-                        *ngIf="roleType == '5' && !isCpcCheque"><a>Next</a></button>
+                    <!-- *ngIf="roleType == '5' && !isCpcCheque" -->
+
+                    <button class="btn btn-primary dash_href marginAdd " type="button"
+                        (click)="onNext()"><a>Next</a></button>
                 </div>
 
             </div>
@@ -551,20 +549,15 @@
 </form>
 
 <!-- Submit Record -->
-<app-custom-modal
-[modalDetails]="subModalDetails"
-[showModal]="myModal"
-[buttons] = "subModalButtons"
-(onButtonCancel) = "myModal = false"
-(onButtonClick)="roleType == '4' ? onSave('cpc') : roleType == '5' ? sendLoanCreationWrapper() : ''; myModal= false"></app-custom-modal>
+<app-custom-modal [modalDetails]="subModalDetails" [showModal]="myModal" [buttons]="subModalButtons"
+    (onButtonCancel)="myModal = false"
+    (onButtonClick)="roleType == '4' ? onSave('cpc') : roleType == '5' ? sendLoanCreationWrapper() : ''; myModal= false">
+</app-custom-modal>
 
 <!--Send back to credit-->
-<app-custom-modal
-[modalDetails]="sendCreModalDetails"
-[showModal]="isSendCredit"
-[buttons] = "sendCreModalButtons"
-(onButtonCancel) = "isSendCredit = false"
-(onButtonClick)="sendBackToCredit(); isSendCredit= false"></app-custom-modal>
+<app-custom-modal [modalDetails]="sendCreModalDetails" [showModal]="isSendCredit" [buttons]="sendCreModalButtons"
+    (onButtonCancel)="isSendCredit = false" (onButtonClick)="sendBackToCredit(); isSendCredit= false">
+</app-custom-modal>
 <!-- <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
