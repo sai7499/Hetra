@@ -127,6 +127,7 @@ export class AddressDetailsComponent implements OnInit {
   editedUDFValues: any;
 
   isShowNextBut: boolean;
+  isAddrFromMain: boolean;
 
   constructor(
     private lovData: LovDataService,
@@ -644,6 +645,7 @@ export class AddressDetailsComponent implements OnInit {
         this.isCurrAddSameAsPermAdd = '1'
 
         this.isDisMainAddress = true;
+        this.isAddrFromMain = true;
         this.disableAddress('permanantAddress');
         this.disableAddress('currentAddress');
       }
@@ -651,6 +653,7 @@ export class AddressDetailsComponent implements OnInit {
         if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
           this.disableAddress('permanantAddress');
           this.isDisMainAddress = true;
+          this.isAddrFromMain = true;
 
         }
       }
@@ -909,11 +912,8 @@ export class AddressDetailsComponent implements OnInit {
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
     if (modifyCurrentAdd == '1') {
       this.disableCurrent = false
+      this.isAddrFromMain = false;
     }
-    //this.disableCurrent = modifyCurrentAdd == '1' ? false : true;
-
-    // const srNumber = this.address.applicantDetails.srNumber;
-    // details.get('srNumber').setValue(srNumber)
 
     const sameAppAddress = this.address.applicantDetails.isAddrSameAsApplicant
     this.apiAddressLead = sameAppAddress;
@@ -926,6 +926,7 @@ export class AddressDetailsComponent implements OnInit {
 
     if (this.sameAsAppAddress && this.isSalesOrCredit == "credit") {
       this.isDisMainAddress = true;
+      this.isAddrFromMain = true;
     }
     this.successSrValue = this.address.applicantDetails.srNumber;
     this.validateSrBoolean = this.storeSRNumber ? true : false;
@@ -1428,6 +1429,7 @@ export class AddressDetailsComponent implements OnInit {
         this.onPerAsCurChecked = false;
         this.isCurrAddSameAsPermAdd = '0'
         this.disableCurrent = false;
+        this.isAddrFromMain = false;
         if (this.onCurrAsOfficeChecked) {
           this.onCurrAsOfficeChecked = false;
           this.isCurrAddSameAsOffAdd = '0'
@@ -1452,7 +1454,7 @@ export class AddressDetailsComponent implements OnInit {
       // control.get('srNumber').setValue(null)
       const addressObj = this.getAddressObj();
       if(this.isIndividual){
-        
+        this.sameAsAppAddress = false;
         const currentAddressObj =
           addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
         if (currentAddressObj) {
@@ -1470,6 +1472,7 @@ export class AddressDetailsComponent implements OnInit {
         this.isCurrAddSameAsPermAdd = '1'
         this.disableCurrent = true;
         this.SRNumberValidate = true;
+        this.isAddrFromMain = true;
       }else {
         const officeAddressObj =
         addressObj['COMMADDADDTYP'];

@@ -1018,7 +1018,7 @@
                                   [itemTemplate]="favApprovalNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="approvedBy"
                                   [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="1"
                                   [disabled]="isAlreadyApproved"
-                                  [title]="approvedBy.name+'-'+approvedBy.userId"
+                                  [title]="approvedBy ? approvedBy.name  +'-'+approvedBy.userId : ''"
                                   >
                                 
                                   </ng-autocomplete>                                    

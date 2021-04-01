@@ -550,13 +550,6 @@
               </app-vf-custom-select>
             </div>
 
-
-
-
-            
-
-
-
           </div>
 
           <div class="row">
@@ -712,6 +705,16 @@
                 <sub class="star_red_col">*</sub></label>
               <app-custom-input formControlName="emiAffordability" [maxLength]="validationData?.amountValue?.maxLength"
                 [type]="validationData?.amountValue?.type" [isRequired]="'EMI Affordability is required'"
+                [isDirty]="isDirty"></app-custom-input>
+
+            </div>
+          </div>
+          <div class="row" *ngIf="applicant?.ucic">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="emi_affordability">{{ labels?.ckycNumber }}
+                </label>
+              <app-custom-input formControlName="ckycNumber" 
                 [isDirty]="isDirty"></app-custom-input>
 
             </div>
@@ -1440,11 +1443,18 @@
                 [maxLength]="validationData?.numberOfYears?.maxLength" [type]="validationData?.numberOfYears?.type"
                 (keyup)="addDirectorControls($event.target.value)"></app-custom-input>
             </div>
+              <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" *ngIf="applicant?.ucic">
+  
+                <label for="emi_affordability">{{ labels?.ckycNumber }}</label>
+                <app-custom-input formControlName="ckycNumber" 
+                  [isDirty]="isDirty"></app-custom-input>
+  
+              </div>
           </div>
         </div>
       </ng-container>
       <ng-container formArrayName="directors">
-        <div class="row" *ngIf="!isIndividual">
+        <div class="row" *ngIf="!isIndividual && basicForm.get('directors')?.length > 0">
           <table class="table table-responsive">
             <thead>
               <tr class="table-head-bg text-center">
