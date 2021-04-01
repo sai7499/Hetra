@@ -96,7 +96,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
   apiRes: any[];
 
   isApplicantDetails: boolean;
-  isShowStatus: any = {}
+  currentDate = new Date();
+  futureDate = this.currentDate;
 
   // userDefineFields
   udfScreenId = 'RCS002';
@@ -123,10 +124,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isLoan360: boolean;
   docNumberError: boolean = true;
 
+  codeRoleArray: any = {}
+
   subcategotyDocsId: any = {};
   isPreDisEnable: any = {};
-  isReqApprove: any = {};
-
   modalForm: FormGroup;
   @ViewChild('closebutton', { static: true }) closebutton;
 
@@ -145,6 +146,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private toasterService: ToasterService,
     private loanViewService: LoanViewService
   ) {
+
+    var day = this.currentDate.getDate() + 1;
+    var month = this.toDayDate.getMonth();
+    var year = this.toDayDate.getFullYear();
+    this.futureDate = new Date(year, month, day, 0, 0);
+
+
+    // futureDate = this.currentDate.getDate() + 1
+
 
   }
 
@@ -175,7 +185,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.modalForm = new FormGroup({
       deferralRemarks: new FormControl('', Validators.required),
       selectedObj: new FormControl(''),
-      index: new FormControl('')
+      index: new FormControl(''),
+      subCategoryCode: new FormControl('')
     })
 
     const url = this.location.path();
@@ -250,7 +261,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   getCategoriesDetails(categoryCode: any[]) {
-    console.log('categoryCode', categoryCode);
     const categories = this.lovService.getDocumentCategories();
     // this.categories = categories.filter((category) => {
     //   return category.code === 50 || category.code === 70;
@@ -267,17 +277,32 @@ export class ApplicantDocsUploadComponent implements OnInit {
         }
       }
     });
-    console.log('this.categories', this.categories);
     const subCategories = this.categories.map((category) => {
+      category.subcategories.forEach((sub: any) => {
+        sub.approverRoleName = category['approverRoleName']
+        sub.approverRoleID = category['approverRoleID']
+
+        this.codeRoleArray[sub['code']] = [{
+          key: sub['approverRoleID'],
+          value: sub['approverRoleName']
+        }]
+      })
+
       return category.subcategories;
     });
+
+    console.log(subCategories, 'this.categories', this.categories);
+
 
     let subCategoryList: any = [];
     for (const subCategory of subCategories) {
       subCategoryList = [...subCategoryList, ...subCategory];
     }
     this.subCategories = subCategoryList;
+
+
     if (this.applicantId) {
+      console.log(this.subCategories, 'this.categories', this.codeRoleArray);
       this.constructOnlyFormArray();
       this.setDocumentDetails();
       return;
@@ -304,6 +329,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.documentArr = docDetails || [];
         const photo = processVariables.photo;
         const signature = processVariables.signature;
+
         if (photo) {
           this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + photo;
         }
@@ -331,10 +357,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
           const formArray = this.uploadForm.get(
             `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
           ) as FormArray;
+
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
-            this.isShowStatus[index] = docs['deferralStatus'] && docs['deferralStatus'] !== '0' ? true : false;
             this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
+
             // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
             //      this.DEFAULT_PROFILE_IMAGE =
@@ -421,25 +448,31 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     if (isUpdate) {
       formArray.controls.forEach((control, i) => {
-        this.deferralDateToggle(formArray, i)
+        this.deferralDateToggle(formArray, i, categoryCode)
       })
     } else {
-      this.deferralDateToggle(formArray, index)
+      this.deferralDateToggle(formArray, index, categoryCode)
     }
   }
 
-  deferralDateToggle(formArray, index) {
+  deferralDateToggle(formArray, index, code) {
     if (formArray.at(index)) {
       const formGroup = formArray.at(index);
       const isChecked = formGroup.get('isDeferred').value;
+
       if (isChecked) {
         formGroup.get('deferredDate').enable();
         this.docNumberError = false;
+
+        if (!formGroup.get('documentRoleArray').value || formGroup.get('documentRoleArray').value.length === 0) {
+          formGroup.get('documentRoleArray').setValue(this.codeRoleArray[code])
+        }
+
         if (localStorage.getItem('is_pred_done') === 'true' && formGroup.get('documentId').value) {
           this.isPreDisEnable[index] = true;
-          this.onChangeRoleId(formArray, index)
           formGroup.get('receivedBy').setValidators(Validators.required);
           formGroup.get('receivedBy').updateValueAndValidity();
+          this.onChangeRoleId(formArray, index)
         } else {
           this.isPreDisEnable[index] = false;
           formGroup.get('receivedBy').clearAsyncValidators();
@@ -483,6 +516,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       ),
       receivedBy: new FormControl(document['documentRoleId'] || ''),
       requestedBy: new FormControl(document['requestedBy'] || localStorage.getItem('userId')),
+      isReqApprove: new FormControl(Number(document['deferralStatus']) == 0 ? true : false || false),
+      isShowStatus: new FormControl(Number(document['deferralStatus']) !== 0 ? true : false || false),
       deferralStatusArr: new FormControl(deferralStatusArr || ''),
       deferralStatus: new FormControl(document['deferralStatus'] || ''),
       documentRoleArray: new FormControl(documentRoleArray || '')
@@ -496,7 +531,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   navigateToApplicantList() {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-}
+  }
 
   removeDocumentFormControls(formArrayName: string, index: number) {
     const formArray = this.uploadForm.get(formArrayName) as FormArray;
@@ -506,7 +541,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     const formControl = formArray.at(index).get('documentId');
     if (formControl.value === 0) {
-      formArray.removeAt(index);
+      // formArray.removeAt(index);
       const length = formArray.length;
       formArray.removeAt(index);
       if (length === 0) {
@@ -571,7 +606,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
       isDeferred: new FormControl(''),
       receivedBy: new FormControl(''),
       requestedBy: new FormControl(localStorage.getItem('userId')),
-      deferralStatus: new FormControl('0')
+      deferralStatus: new FormControl('0'),
+      deferralStatusArr: new FormControl(''),
+      documentRoleArray: new FormControl(''),
+      isShowStatus: new FormControl(false),
+      isReqApprove: new FormControl(false),
     });
     formArray.push(controls);
   }
@@ -1061,20 +1100,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onSubmit(isRequested?) {
-    if (this.uploadForm.invalid) {
-      return this.toasterService.showError('Please fill mandatory fields', '');
-    }
+
     this.docError = {};
     const formValue = this.uploadForm.getRawValue();
     const requestArr = [];
+    let subCategoryCode;
     let isDocNumberError = false;
     for (const key in formValue) {
       if (formValue[key]) {
-        const subCategoryCode = Number(key.split('_')[1]);
+        subCategoryCode = Number(key.split('_')[1]);
         let category: Categories;
 
         this.categories.forEach((val) => {
-          val.subcategories.forEach((subCat) => {
+          val.subcategories.forEach((subCat, index) => {
+            this.toggleDeferralDate(subCategoryCode, index, 'isUpdate')
+
             if (subCat.code === subCategoryCode) {
               category = val;
             }
@@ -1126,6 +1166,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.documentArr = requestArr;
 
     // }
+
+    if (this.uploadForm.invalid) {
+      return this.toasterService.showError('Please fill mandatory fields', '');
+    }
 
     // check defer past date
     if (isDocNumberError) {
@@ -1191,7 +1235,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       );
     });
 
-
     if (this.isNewUpload) {
       if (!isValueChange && this.isProfileSignUploaded) {
         this.isProfileSignUploaded = false;
@@ -1228,12 +1271,16 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showError(`Please upload document for ${docName.displayName}`, '')
     }
 
-    this.callAppiyoUploadApi(true);
-    setTimeout(() => {
-      if (isRequested) {
-        this.onApproveRequest()
-      }
-    }, 1000)
+    if (!isRequested) {
+      this.callAppiyoUploadApi();
+    } else {
+      this.callAppiyoUploadApi(true);
+      setTimeout(() => {
+        if (isRequested) {
+          this.onApproveRequest()
+        }
+      }, 1000)
+    }
   }
 
   callAppiyoUploadApi(isNoMsg?) {
@@ -1261,13 +1308,18 @@ export class ApplicantDocsUploadComponent implements OnInit {
             const formArray = this.uploadForm.get(
               `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
             ) as FormArray;
+
             formArray
               .at(formArrayIndex)
               .get('documentId')
               .setValue(documentIds[index]);
+
+              console.log(docs, 'toggleDeferralDate')
+
+              this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
+
           }
         });
-        // this.setDocumentDetails()
       });
   }
 
@@ -1276,18 +1328,20 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onChangeRoleId(obj, index) {
-    let controlValue = obj.controls[index]
+    let controlValue = obj.controls[index];
     if (controlValue.get('deferredDate').value && controlValue.get('receivedBy').value && controlValue.get('deferralStatus').value === '0') {
-      this.isReqApprove[index] = true;
+      controlValue.get('isReqApprove').setValue(true)
     } else {
-      this.isReqApprove[index] = false;
+      controlValue.get('isReqApprove').setValue(false)
     }
   }
 
-  onPatchDeferralRemarks(obj, index) {
+  onPatchDeferralRemarks(obj, index, code) {
     this.modalForm.patchValue({
       index: index,
-      selectedObj: obj
+      selectedObj: obj,
+      subCategoryCode: code,
+      deferralRemarks: ''
     })
   }
 
@@ -1314,8 +1368,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.uploadService.requestForApproval(data, this.leadId).subscribe((res: any) => {
       this.closebutton.nativeElement.click();
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.isReqApprove[index] = false;
-        this.isShowStatus[index] = true;
         let documentDetails = res.ProcessVariables.documentDetail;
 
         let deferralStatusArr = documentDetails['deferralStatus'] ? [{
@@ -1325,11 +1377,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
         obj.controls[index].get('deferralStatus').setValue(documentDetails.deferralStatus)
         obj.controls[index].get('deferralStatusArr').setValue(deferralStatusArr)
-        this.toasterService.showSuccess('Requested Deferral Approval Sucessfully', '')
+        obj.controls[index].get('isShowStatus').setValue(true)
+        obj.controls[index].get('isReqApprove').setValue(false)
 
+        this.toasterService.showSuccess('Requested Deferral Approval Sucessfully', '')
       } else {
-        this.isShowStatus[index] = false;
-        this.isReqApprove[index] = true;
+        obj.controls[index].get('isShowStatus').setValue(false)
+        obj.controls[index].get('isReqApprove').setValue(true)
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Request Approve Deferral')
       }
     })
