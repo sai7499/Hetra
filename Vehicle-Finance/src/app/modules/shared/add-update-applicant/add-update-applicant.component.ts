@@ -274,6 +274,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   matchingDetails: any;
   modalDetails: any;
   modalButtons: any;
+  isAddrFromMain : boolean;
 
 
 
@@ -1311,6 +1312,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             this.disableEKYCDetails();
             this.showEkycbutton = false;
             this.addDisabledCheckBox = true;
+            this.isAddrFromMain = true;
           }
 
         }
@@ -1562,6 +1564,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       gstNumber: new FormControl(''),
       tanNumber: new FormControl(''),
       companyPhoneNumber: new FormControl('', Validators.required),
+      ckycNumber : new FormControl({ value: '', disabled: true })
     };
   }
 
@@ -1775,6 +1778,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           applicantValue.applicantDetails.agriAppRelationship || '',
         grossReceipt: applicantValue.applicantDetails.grossReceipt || '',
         custSegment: applicantValue.applicantDetails.custSegment || '',
+        ckycNumber: applicantValue.applicantDetails.ckycNumber || ''
       });
       if (details.panType === '2PANTYPE') {
         this.coApplicantForm.get('dedupe').get('pan').disable();
@@ -1971,6 +1975,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     if (this.checkedModifyCurrent) {
       this.addDisabledCheckBox = true;
+      this.isAddrFromMain = false;
       if (!this.isDisabledCheckbox && this.isPermanantAddressSame) {
         this.disablePermanentAddress();
         this.disableCurrentAddress();
@@ -1988,6 +1993,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.disableCurrentAddress();
       this.isPermanantAddressSame = true;
       this.addDisabledCheckBox = true;
+      this.isAddrFromMain = true;
       this.isDisabledCheckbox = true;
       this.showModifyCurrCheckBox = true;
     }
@@ -3125,37 +3131,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.applicantDetails.grossReceipt = coApplicantModel.dedupe.grossReceipt,
       this.applicantDetails.isAddrSameAsApplicant = this.checkedAddressLead,
       this.applicantDetails.modifyCurrentAddress = this.checkedModifyCurrent == true ? '1' : '0'
-    //this.applicantDetails.srNumber = coApplicantModel.srNumber
+      this.applicantDetails.ckycNumber = coApplicantModel.dedupe.ckycNumber 
 
 
-    // this.applicantDetails = {
-    //   entityType: coApplicantModel.dedupe.entityType,
-    //   name1: coApplicantModel.dedupe.name1,
-    //   name2: coApplicantModel.dedupe.name2,
-    //   name3: coApplicantModel.dedupe.name3,
-    //   loanApplicationRelation: coApplicantModel.dedupe.loanApplicationRelation,
-    //   bussinessEntityType: coApplicantModel.dedupe.bussinessEntityType,
-    //   custSegment: coApplicantModel.dedupe.custSegment,
-    //   monthlyIncomeAmount: coApplicantModel.dedupe.monthlyIncomeAmount,
-    //   annualIncomeAmount: coApplicantModel.dedupe.annualIncomeAmount,
-    //   ownHouseProofAvail: this.isChecked == true ? '1' : '0',
-    //   houseOwnerProperty: coApplicantModel.dedupe.houseOwnerProperty,
-    //   ownHouseAppRelationship: coApplicantModel.dedupe.ownHouseAppRelationship,
-    //   averageBankBalance: coApplicantModel.dedupe.averageBankBalance,
-    //   rtrType: coApplicantModel.dedupe.rtrType,
-    //   prevLoanAmount: coApplicantModel.dedupe.prevLoanAmount,
-    //   loanTenorServiced: Number(coApplicantModel.dedupe.loanTenorServiced),
-    //   currentEMILoan: coApplicantModel.dedupe.currentEMILoan,
-    //   agriNoOfAcres: Number(coApplicantModel.dedupe.agriNoOfAcres),
-    //   agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
-    //   agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
-    //   grossReceipt: coApplicantModel.dedupe.grossReceipt,
-    //   isAddrSameAsApplicant: this.checkedAddressLead,
-    //   modifyCurrentAddress: this.checkedModifyCurrent == true ? '1' : '0',
-    //   srNumber: coApplicantModel.srNumber
-
-    //   //customerCategory: 'SALCUSTCAT',
-    // };
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dedupe.dob);
 
 
@@ -3286,6 +3264,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         currentAddress.enable();
         this.isPermanantAddressSame = false;
         this.isDisabledCheckbox = false;
+        this.isAddrFromMain = false;
       } else {
         const officeAddress = this.coApplicantForm.get('communicationAddress');
         officeAddress.enable();
@@ -3301,6 +3280,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const address = this.applicant.addressDetails
       const addressObj = this.getAddressObj(address);
       if (this.applicantType == 'INDIVENTTYP') {
+        this.checkedAddressLead = '0';
         const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
         const currentAddress = this.coApplicantForm.get('currentAddress');
         this.currentPincode = this.formatPincodeData(currentAddressObj);
@@ -3313,6 +3293,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         currentAddress.disable();
         this.isPermanantAddressSame = true;
         this.isDisabledCheckbox = true;
+        this.isAddrFromMain = true;
+        
       } else {
         const officeAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
         const officeAddress = this.coApplicantForm.get('communicationAddress');
@@ -4038,6 +4020,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     currentAddress.reset();
     currentAddress.enable();
     ctx.addDisabledCheckBox = true;
+    ctx.isAddrFromMain = true
     ctx.isPermanantAddressSame = false
 
     ctx.pTag.nativeElement.click();

@@ -275,9 +275,9 @@ export class NegotiationComponent implements OnInit {
       this.getLeadId();
     }
     // this.initForm();
+    this.getApprovingAuthority();
     this.getLabels();
     this.getLOV();
-    this.getApprovingAuthority();
     this.getInsuranceLOV();
     this.loadForm();
     
@@ -478,6 +478,11 @@ export class NegotiationComponent implements OnInit {
           this.collectedPDCvalueCheck = [{ rule: collectedpdcvalue => collectedpdcvalue > pdcvalue, msg: 'value should not be greater than required pdc' }];    
        }
     });
+    if(collectedspdcvalue > spdcvalue) {
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setErrors({'incorrect': true})
+    } else {
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setErrors(null);
+    }
    
    if (requiredNoofCheques && collectedNoofCheques && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
       this.isNeededApproval = true;
@@ -2821,9 +2826,7 @@ setCrosSell(i,val){
   }
 
   onSubmit() {
-    if(this.onApproveOrSave != 'approval') {
-      this.onApprovePdcSpdc();
-    }
+    
     // this.getLeadId();
     this.isDirty = true;
     this.onformsubmit = true;
@@ -2875,6 +2878,10 @@ setCrosSell(i,val){
     this.getLeadId();
     const formData = this.createNegotiationForm.getRawValue();
     //console.log('Savedata',formData);
+      if(this.onApproveOrSave != 'approval' && this.isPredDone == 'true') {
+        this.onApprovePdcSpdc();
+      }
+    
     this.Applicants = [];
     this.LeadReferenceDetails.forEach((element) => {
       var obj = {

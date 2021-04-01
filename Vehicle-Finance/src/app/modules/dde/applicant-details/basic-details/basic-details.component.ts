@@ -618,6 +618,7 @@ export class BasicDetailsComponent implements OnInit {
       grossReceipt: applicantDetails.grossReceipt,
       //customerCategory: applicantDetails.customerCategory || ' ',
       custSegment: applicantDetails.custSegment || '',
+      ckycNumber: applicantDetails.ckycNumber || ''
     });
     this.apiValue = this.basicForm.getRawValue();
     if (this.isIndividual) {
@@ -1003,6 +1004,7 @@ export class BasicDetailsComponent implements OnInit {
       isEquitasEmployeeRelative: new FormControl(''),
       isEquitasEmployee: new FormControl(''),
       equitasEmployeeNumber: new FormControl(''),
+      ckycNumber : new FormControl({value : '', disabled : true})
 
     });
     formArray.push(controls);
@@ -1057,6 +1059,7 @@ export class BasicDetailsComponent implements OnInit {
       agriOwnerProperty: new FormControl(''),
       agriAppRelationship: new FormControl(''),
       grossReceipt: new FormControl(''),
+      ckycNumber : new FormControl({value : '', disabled : true})
     });
     formArray.push(controls);
   }
@@ -1762,6 +1765,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.title = value.title;
     //applicantDetails.customerCategory = formValue.customerCategory;
     applicantDetails.custSegment = formValue.custSegment || '';
+    applicantDetails.ckycNumber = formValue.ckycNumber || '';
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const aboutIndivProspectDetails = formValue;
@@ -1916,6 +1920,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.customerCategory;
     applicantDetails.grossReceipt = formValue.grossReceipt;
+    applicantDetails.ckycNumber = formValue.ckycNumber;
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 

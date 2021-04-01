@@ -713,6 +713,7 @@ export class BasicDetailsComponent implements OnInit {
       agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
+      ckycNumber : applicantDetails.ckycNumber
     });
     //console.log('this.basicForm.value', this.basicForm.value)
     this.apiValue = this.basicForm.getRawValue();
@@ -944,7 +945,8 @@ export class BasicDetailsComponent implements OnInit {
       grossReceipt: new FormControl(''),
 
       //new formcontrol added for new fields
-      recommendations: new FormControl('')
+      recommendations: new FormControl(''),
+      ckycNumber : new FormControl({ value: '', disabled: true })
     });
 
     formArray.push(controls);
@@ -1004,6 +1006,7 @@ export class BasicDetailsComponent implements OnInit {
       agriOwnerProperty: new FormControl(''),
       agriAppRelationship: new FormControl(''),
       grossReceipt: new FormControl(''),
+      ckycNumber : new FormControl({ value: '', disabled: true })
     });
     formArray.push(controls);
   }
@@ -1209,6 +1212,8 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.agriAppRelationship;
     applicantDetails.grossReceipt = formValue.grossReceipt;
+    applicantDetails.ckycNumber = formValue.ckycNumber;
+
 
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
@@ -1293,6 +1298,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.agriAppRelationship;
     applicantDetails.grossReceipt = formValue.grossReceipt;
+    applicantDetails.ckycNumber = formValue.ckycNumber;
 
     //applicantDetails.customerCategory = formValue.customerCategory;
 
