@@ -275,9 +275,9 @@ export class NegotiationComponent implements OnInit {
       this.getLeadId();
     }
     // this.initForm();
+    this.getApprovingAuthority();
     this.getLabels();
     this.getLOV();
-    this.getApprovingAuthority();
     this.getInsuranceLOV();
     this.loadForm();
     
@@ -2877,13 +2877,11 @@ setCrosSell(i,val){
     if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
     this.getLeadId();
     const formData = this.createNegotiationForm.getRawValue();
-    if(this.onApproveOrSave != 'approval') {
-      this.onApprovePdcSpdc();
-    }
     //console.log('Savedata',formData);
-    if(this.onApproveOrSave != 'approval') {
-      this.onApprovePdcSpdc();
-    }
+      if(this.onApproveOrSave != 'approval' && this.isPredDone == 'true') {
+        this.onApprovePdcSpdc();
+      }
+    
     this.Applicants = [];
     this.LeadReferenceDetails.forEach((element) => {
       var obj = {
