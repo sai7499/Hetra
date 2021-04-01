@@ -642,6 +642,13 @@
                   </app-custom-input>
                 </div>
 
+                <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP' && applicant?.ucic">
+                  <label for="aadharnumber">{{ labels?.ckycNumber }}</label>
+                  <app-custom-input formControlName="ckycNumber" >
+                  </app-custom-input>
+                </div>
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
@@ -718,6 +725,12 @@
                     [patternCheck]="validationData?.voterId?.patternCheck" 
                     [inputClass]="'text-uppercase'" 
                      [type]="validationData?.voterId?.type"></app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
+                  *ngIf="applicantType == 'INDIVENTTYP' && applicant?.ucic">
+                  <label for="aadharnumber">{{ labels?.ckycNumber }}</label>
+                  <app-custom-input formControlName="ckycNumber" >
+                  </app-custom-input>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20" *ngIf="
@@ -884,7 +897,7 @@
                   </div>
                   <div class="col-lg-3 text-center" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event, 'checkBox')"
-                      [checked]="checkedAddressLead=='1'" [disabled]="addDisabledCheckBox" />
+                      [checked]="checkedAddressLead=='1'" [disabled]="isAddrFromMain" />
                     <span id="address_section_checkbox_text"> Address From Main Applicant?
                     </span>
                   </div>
