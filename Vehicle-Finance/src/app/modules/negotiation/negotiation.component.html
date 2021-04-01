@@ -991,8 +991,12 @@
                                   <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Deferral Date
                                   </label>
                                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                    <kendo-datepicker class="form-control" formControlName="deferralDate" [format]="'dd/MM/yyyy'"
-                                      placeholder="Select Deferral Date" [activeView]="'decade'" [min]="minDefDate">
+                                    <kendo-datepicker class="form-control" formControlName="deferralDate" 
+                                      [format]="'dd/MM/yyyy'"
+                                      placeholder="Select Deferral Date" 
+                                      [activeView]="'month'" 
+                                      [min]="minDefDate"
+                                      [disabled]="isAlreadyApproved">
                                     </kendo-datepicker>
                                     <div class="invalid-feedback">
                                       <div *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].value && createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].invalid">
@@ -1015,11 +1019,16 @@
                                   (selected)='selectApprovalNameEvent($event, i)' (inputChanged)='onApprovalNameSearch($event, i)'
                                   (inputCleared)='onApprovalNameClear($event, i)'
                                   [itemTemplate]="favApprovalNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="approvedBy"
-                                  [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
-                                  </ng-autocomplete>
+                                  [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="1"
+                                  [disabled]="isAlreadyApproved"
+                                  [title]="approvedBy.name+'-'+approvedBy.userId"
+                                  >
+                                
+                                  </ng-autocomplete>                                    
                                   
                 <div class="invalid-feedback">
-                  <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
+                  <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> 
+                    Please select user
                   </div>
                   <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
                     required</div> -->

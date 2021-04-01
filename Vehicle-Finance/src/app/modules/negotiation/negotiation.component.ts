@@ -2826,9 +2826,7 @@ setCrosSell(i,val){
   }
 
   onSubmit() {
-    // if(this.onApproveOrSave != 'approval') {
-    //   this.onApprovePdcSpdc();
-    // }
+    
     // this.getLeadId();
     this.isDirty = true;
     this.onformsubmit = true;
@@ -2883,6 +2881,9 @@ setCrosSell(i,val){
       this.onApprovePdcSpdc();
     }
     //console.log('Savedata',formData);
+    if(this.onApproveOrSave != 'approval') {
+      this.onApprovePdcSpdc();
+    }
     this.Applicants = [];
     this.LeadReferenceDetails.forEach((element) => {
       var obj = {

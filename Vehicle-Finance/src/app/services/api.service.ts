@@ -1261,6 +1261,11 @@ export class ApiService {
       workflowId: '0632570676b111ebad3e00505695f93b',
       processId: '0666923276b111eb9dfa00505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    fetchCKYCDetails: {
+      workflowId: 'c90c44ec907111eb917400505695f93b',
+      processId: 'c93c897c907111eb81d900505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }

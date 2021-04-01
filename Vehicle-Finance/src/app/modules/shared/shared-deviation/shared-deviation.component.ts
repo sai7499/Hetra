@@ -94,10 +94,10 @@ export class SharedDeviationComponent implements OnInit {
       }
     );
 
-    this.labelsData.getModalDetails().subscribe((data)=>{
+    this.labelsData.getModalDetails().subscribe((data) => {
       const details = data.deviation.removeDev;
       this.modalDetails = details.modalDetails,
-      this.modalButtons = details.modalButtons
+        this.modalButtons = details.modalButtons
 
     })
 
@@ -620,7 +620,7 @@ export class SharedDeviationComponent implements OnInit {
             "leadId": this.leadId,
             "userId": this.userId,
             "approverRole": this.deviationsForm.controls['approverRole'].value,
-            "recommendation": this.modalForm.controls['recommendation'].value,
+            "recommendation": this.modalForm.controls['recommendation'].value.toUpperCase(),
             "taskId": this.taskId,
             "isDDE": true
           }
@@ -629,7 +629,7 @@ export class SharedDeviationComponent implements OnInit {
             "leadId": this.leadId,
             "userId": this.userId,
             "approverRole": this.deviationsForm.controls['approverRole'].value,
-            "recommendation": this.modalForm.controls['recommendation'].value,
+            "recommendation": this.modalForm.controls['recommendation'].value.toUpperCase(),
             "taskId": this.taskId,
             "isDeviation": true
           }
@@ -638,12 +638,11 @@ export class SharedDeviationComponent implements OnInit {
             "leadId": this.leadId,
             "userId": this.userId,
             "approverRole": this.deviationsForm.controls['approverRole'].value,
-            "recommendation": this.modalForm.controls['recommendation'].value,
+            "recommendation": this.modalForm.controls['recommendation'].value.toUpperCase(),
             "taskId": this.taskId,
             "isCC": true
           }
         }
-
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
           this.isShowReferModal = true;
           this.closebutton.nativeElement.click();
@@ -666,7 +665,7 @@ export class SharedDeviationComponent implements OnInit {
         data = {
           "leadId": this.leadId,
           "userId": this.userId,
-          "recommendation": this.modalForm.controls['recommendation'].value,
+          "recommendation": this.modalForm.controls['recommendation'].value.toUpperCase(),
           "taskId": this.taskId,
         }
 
@@ -690,7 +689,7 @@ export class SharedDeviationComponent implements OnInit {
         data = {
           "leadId": this.leadId,
           "userId": this.userId,
-          "recommendation": this.modalForm.controls['recommendation'].value,
+          "recommendation": this.modalForm.controls['recommendation'].value.toUpperCase(),
           "taskId": this.taskId
         }
 
@@ -733,7 +732,6 @@ export class SharedDeviationComponent implements OnInit {
       } else {
         this.isAllowReferBut = false;
       }
-
     }
   }
 
@@ -748,5 +746,4 @@ export class SharedDeviationComponent implements OnInit {
     })
     return setType.length > 0 ? true : false
   }
-
 }
