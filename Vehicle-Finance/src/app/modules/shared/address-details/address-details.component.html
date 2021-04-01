@@ -158,7 +158,7 @@
             </div>
             <div class="col-lg-3 text-center" id="align_this_checkbox" *ngIf="!showAppAddressCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onAddSameAsApplicant($event, 'checkBox')"
-                [checked]="sameAsAppAddress" [disabled]="isDisMainAddress || isLoan360" />
+                [checked]="sameAsAppAddress" [disabled]="isAddrFromMain || isLoan360" />
               <span id="address_section_checkbox_text"> Address From Main Applicant?
               </span>
             </div>

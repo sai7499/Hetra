@@ -63,6 +63,7 @@ export interface ApplicantDetails {
   isAddrSameAsApplicant? : string;
   modifyCurrentAddress ? : string;
   srNumber? : string;
+  ckycNumber? : string
 }
 
 export interface ApplicantList {
