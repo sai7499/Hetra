@@ -367,20 +367,19 @@ export class NegotiationComponent implements OnInit {
       reqForApproval = false;
     }
     this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.patchValue({
-      approvalStatus: 0
+      approvalStatus: 1
     });
     const todayDate = new Date();
     const deferralDate = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.deferralDate;
     // console.log(this.utilityService.getDateFormat(deferralDate));
     const approvedBy = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.approvedBy;
     // delete this.keyValue['Name']
-    
     const data = {
       leadId: Number(this.leadId),
       requestedOn: this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm'),
       requestedBy: localStorage.getItem('userId'),
-      approvedBy: this.keyValue,
-      approvalStatus: 0,
+      approvedBy: this.keyValue ? this.keyValue : this.approvedBy,
+      approvalStatus: this.statusApproval ? Number(this.statusApproval.id) : 0,
       deferredDate : this.utilityService.getDateFormat(deferralDate),
       reqForApproval : reqForApproval
     }
@@ -390,9 +389,13 @@ export class NegotiationComponent implements OnInit {
       if (response.Error == '0' && response.ProcessVariables.error.code == '0') {
         console.log('response', response);
         // this.showButton = false;
+        if(type == 'approval') {
         this.isAlreadyApproved = true;
         this.showModal = false;
-        if(this.isAlreadyApproved && this.roleType == '2') {
+        }
+        // this.isAlreadyApproved = true;
+        // this.showModal = false;
+        if(this.isAlreadyApproved && this.roleType == '2' && type == 'approval') {
           this.createNegotiationForm.get('tickets')['controls'][0]['controls'].repaymentmodeArray.disable();
           }
       } else {
