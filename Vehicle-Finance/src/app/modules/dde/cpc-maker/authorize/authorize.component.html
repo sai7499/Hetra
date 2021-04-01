@@ -3,7 +3,11 @@
 
     <div class="authorize-demo" id="authorize-demo">
 
-        <div class="panel-group" id="accordion">
+        <form  [formGroup]="authorizeForm" *ngIf="authorizeForm">
+
+        <div class="panel-group" id="accordion" formArrayName="applicantFormArray">
+            <!-- *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
+                    [formGroupName]="i" -->
             <div class="panel panel-default" *ngFor="let applicant of applicantDetails; let i = index">
                 <a class="panel-heading panel-primary title collapsed" data-toggle="collapse" data-parent="#accordion"
                     href="#applicantDetails{{i}}">
@@ -285,5 +289,7 @@
             </div>
 
         </div>
+    </form>
+
     </div>
 </div>

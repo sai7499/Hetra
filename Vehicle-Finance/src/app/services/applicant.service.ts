@@ -494,4 +494,20 @@ export class ApplicantService {
     return this.httpService.post(url, body);
   }
 
+  getAuthorizeDetails(data) {
+    const projectId = this.apiService.api.fetchCKYCDetails.projectId;
+    const processId = this.apiService.api.fetchCKYCDetails.processId;
+    const workflowId = this.apiService.api.fetchCKYCDetails.workflowId;
+
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: data
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+
 }

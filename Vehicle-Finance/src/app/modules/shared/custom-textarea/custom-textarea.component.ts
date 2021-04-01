@@ -77,12 +77,12 @@ export class CustomTextareaComponent
   }
 
   writeValue( value : any ) : void {
-    if (value) {
+    // if (value) {
       const limit = this.customText.nativeElement;
 
       this.inputValue = value;
       this.renderer.setProperty(limit, 'textContent', value);
-    }
+    // }
   }
 
   registerOnChange( fn : any ) : void {
