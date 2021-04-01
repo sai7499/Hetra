@@ -32,7 +32,7 @@
     </div>
 
     <!-- Filter Form Starts -->
-    <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
+    <div class="filter-block container-fluid mar-bottom mar-10px" *ngIf="showFilter">
         <div>
             <form [formGroup]="filterForm">
                 <div class="row">
@@ -101,7 +101,7 @@
                         <label for="startDate">Deferral Date</label>
                         <kendo-datepicker class="form-control" formControlName="deferralDate"
                             [format]="'dd/MM/yyyy'" placeholder="Deferral Date"
-                            [activeView]="'decade'">
+                            [activeView]="'month'">
                         </kendo-datepicker>
 
                     </div>
@@ -112,7 +112,7 @@
                         <label for="startDate">{{labels?.leadCreatedOnStartDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
                             [max]="toDayDate" placeholder="Start Date" (ngModelChange)="onChangeFromDate($event)"
-                            [activeView]="'decade'">
+                            [activeView]="'month'">
                         </kendo-datepicker>
 
                     </div>
@@ -121,7 +121,7 @@
                         <label for="endDate">{{labels?.leadCreatedOnEndDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'"
                             [min]="filterForm.get('fromDate').value" (ngModelChange)="onChangeEndDate($event)"
-                            [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
+                            [max]="toDayDate" placeholder="End Date" [activeView]="'month'">
                         </kendo-datepicker>
                         <!-- <div *ngIf="isFromDate">
                 End Date is required
@@ -139,14 +139,14 @@
                         <label for="startDate">{{labels?.disbursementStartDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="disbursementDate"
                             [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Start Date"
-                            (ngModelChange)="onChangeDisbFromDate($event)" [activeView]="'decade'">
+                            (ngModelChange)="onChangeDisbFromDate($event)" [activeView]="'month'">
                         </kendo-datepicker>
 
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">Expected Date</label>
                         <kendo-datepicker class="form-control" formControlName="expectedDate" [format]="'dd/MM/yyyy'"
-                            (ngModelChange)="onChangeDisbToDate($event)" placeholder="End Date" [activeView]="'decade'">
+                            (ngModelChange)="onChangeDisbToDate($event)" placeholder="End Date" [activeView]="'month'">
                         </kendo-datepicker>
                         <!-- <div *ngIf="isFromDate">
                 End Date is required
