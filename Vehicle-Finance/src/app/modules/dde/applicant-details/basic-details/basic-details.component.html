@@ -1454,7 +1454,7 @@
         </div>
       </ng-container>
       <ng-container formArrayName="directors">
-        <div class="row" *ngIf="!isIndividual && basicForm.get('directors').length > 0">
+        <div class="row" *ngIf="!isIndividual && basicForm.get('directors')?.length > 0">
           <table class="table table-responsive">
             <thead>
               <tr class="table-head-bg text-center">
