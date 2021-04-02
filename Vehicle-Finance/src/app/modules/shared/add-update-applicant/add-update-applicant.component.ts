@@ -3131,7 +3131,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.applicantDetails.grossReceipt = coApplicantModel.dedupe.grossReceipt,
       this.applicantDetails.isAddrSameAsApplicant = this.checkedAddressLead,
       this.applicantDetails.modifyCurrentAddress = this.checkedModifyCurrent == true ? '1' : '0'
-      this.applicantDetails.ckycNumber = coApplicantModel.dedupe.ckycNumber
+      this.applicantDetails.ckycNumber = coApplicantModel.dedupe.ckycNumber 
 
 
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dedupe.dob);
