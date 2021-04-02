@@ -6091,6 +6091,12 @@ tvrStatusLOV =[
     this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
   }
 }
+
+onAuthorizeNext() {
+  this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/authorize`]);
+
+}
+
   routerUrlIdentifier() {
     if (this.router.url.includes('disbursement')) {
       this.showSaveButton = true;

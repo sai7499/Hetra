@@ -5549,6 +5549,9 @@
         <button  class="btn btn-primary " type="button" (click)="bookLoanModal = true"
           *ngIf="roleType == '5' && navigationFlag==1">Book Loan </button>
           <!-- data-toggle="modal" data-target="#bookLoanModal" -->
+          <button (click)="onAuthorizeNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
+          *ngIf="roleType == '5' && isLoan360"> Next </button>
+
         <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
           *ngIf="roleType != 4 && roleType != 5 && roleType !== 7 && (navigationFlag==1 || navigationFlag==2)"> Next </button>
       </ng-container>
