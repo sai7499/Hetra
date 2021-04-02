@@ -25,7 +25,7 @@ import { AuthorizeComponent } from './authorize/authorize.component';
   declarations: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
-    AuthorizeComponent,
+    // AuthorizeComponent,
     // RemarksComponent,
     // WelomceLetterComponent,
     // DeliveryOrderComponent
@@ -50,6 +50,7 @@ import { AuthorizeComponent } from './authorize/authorize.component';
   exports: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
+    // AuthorizeComponent
     // RemarksComponent
   ]
 })

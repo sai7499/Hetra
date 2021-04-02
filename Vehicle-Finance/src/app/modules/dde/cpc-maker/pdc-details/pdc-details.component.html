@@ -537,10 +537,8 @@
                     <button class="btn btn-primary dash_href marginAdd" (click)="isSendCredit = true"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
 
-                    <!-- *ngIf="roleType == '5' && !isCpcCheque" -->
-
-                    <button class="btn btn-primary dash_href marginAdd " type="button"
-                        (click)="onNext()"><a>Next</a></button>
+                    <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
+                        *ngIf="roleType == '5' && !isCpcCheque"><a>Next</a></button>
                 </div>
 
             </div>

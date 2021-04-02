@@ -402,7 +402,7 @@ export class PdcDetailsComponent implements OnInit {
       this.router.navigateByUrl(`/pages/dashboard`);
     } else {
       if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/authorize`]);
         // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '5') {
         this.router.navigate([
@@ -417,7 +417,6 @@ export class PdcDetailsComponent implements OnInit {
     if (this.roleType == '4') {
       // this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/authorize`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
     }

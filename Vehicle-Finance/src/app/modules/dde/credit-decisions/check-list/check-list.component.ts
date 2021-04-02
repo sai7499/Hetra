@@ -462,12 +462,13 @@ export class CheckListComponent implements OnInit {
       if (this.roleType == '2') {
         this.router.navigate([`pages/dashboard`]);
         // tslint:disable-next-line: triple-equals
-      } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
+      } else if (this.roleType == '4' || this.roleType == '5') {
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/authorize`]);
         // tslint:disable-next-line: triple-equals
-      } else if (this.roleType == '5') {
-        this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
       }
+      //  else if (this.roleType == '5') {
+      //   this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
+      // }
       else if (this.roleType == '7') {
         this.router.navigate([`pages/cpc-maker/${this.leadId}/remarks`]);
       }

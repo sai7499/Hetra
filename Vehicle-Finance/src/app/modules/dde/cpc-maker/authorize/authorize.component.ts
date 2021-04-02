@@ -1,5 +1,4 @@
-import { getMatScrollStrategyAlreadyAttachedError } from "@angular/cdk/overlay/typings/scroll/scroll-strategy";
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CreateLeadDataService } from "@modules/lead-creation/service/createLead-data.service";
@@ -42,6 +41,7 @@ export class AuthorizeComponent implements OnInit {
   taskId: any;
   leadSectionData: any;
 
+  @Input() isDDE: boolean;
 
   setCss = {
     top: '',
@@ -60,7 +60,13 @@ export class AuthorizeComponent implements OnInit {
     private loginStoreService: LoginStoreService, private labelsService: LabelsService, private uploadService: UploadService,) { }
 
   async ngOnInit() {
-    this.leadId = (await this.getLeadId()) as number;
+
+
+    if (this.isDDE) {
+      this.leadId = (await this.getDisbLeadId()) as number
+    } else {
+      this.leadId = (await this.getLeadId()) as number;
+    }
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -99,6 +105,17 @@ export class AuthorizeComponent implements OnInit {
     });
   }
 
+  getDisbLeadId() {
+    return new Promise((resolve) => {
+      this.route.params.subscribe((value) => {
+        if (!value.leadId) {
+          resolve(null)
+        }
+        resolve(Number(value.leadId))
+      })
+    })
+  }
+
   getAuthorizeDetails() {
 
     let data = {
@@ -107,8 +124,6 @@ export class AuthorizeComponent implements OnInit {
     }
 
     this.applicantService.getAuthorizeDetails(data).subscribe((res: any) => {
-      console.log('res', res)
-
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.applicantDetails = res.ProcessVariables.ckycDetails ? res.ProcessVariables.ckycDetails : [];
         if (res.ProcessVariables.error.message !== 'Success') {
@@ -123,14 +138,10 @@ export class AuthorizeComponent implements OnInit {
 
           this.applicantDetails.forEach((element, index) => {
 
-            // console.log(JSON.parse(element.documents.ID_PROOF))
-
             let address = this.addressDetails[element.applicantId];
             let newAddress = this.newAddressDetails[element.applicantId];
 
-            let documents = element.documents;
-            let ID_PROOF = [627913]
-            let ADDRESS_PROOF = [628666, 628667]
+            let documents = JSON.parse(element.documents)
 
             address = {
               city: [],
@@ -236,11 +247,9 @@ export class AuthorizeComponent implements OnInit {
                 nwStateCode: element.nwStateCode,
                 nwStateName: element.nwStateName,
                 ucic: element.ucic,
-                aadharProof: [element.documents.ID_PROOF],
-                addressProof: [element.documents.ADDRESS_PROOF],               
-                // aadharProof: JSON.parse(documents.ID_PROOF).length > 0 ? documents.ID_PROOF : ID_PROOF,
-                // addressProof: JSON.parse(documents.ADDRESS_PROOF).length > 0 ? documents.ADDRESS_PROOF : ADDRESS_PROOF,
-                documents: element.documents
+                aadharProof: [documents.ID_PROOF],
+                addressProof: [documents.ADDRESS_PROOF],
+                documents: documents
               })
             )
           });
@@ -415,6 +424,15 @@ export class AuthorizeComponent implements OnInit {
   }
 
   onBack() {
+    if (this.roleType == '4' || this.roleType == '5') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+    } else {
+      const currentUrl = localStorage.getItem('forApplicantUrl');
+      this.router.navigateByUrl(currentUrl);
+    }
+  }
+
+  onNext() {
     if (this.roleType == '4') {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
     } else if (this.roleType == '5') {
