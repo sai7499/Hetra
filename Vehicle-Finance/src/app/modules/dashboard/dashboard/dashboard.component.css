@@ -181,6 +181,10 @@ h3.dedupe_head {
 }
 .modal-header {
     padding: 8px;
+    background-color: #f3682d;
+}
+.modal-title {
+color: #fff;
 }
 
 .modal-footer {

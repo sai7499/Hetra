@@ -26,6 +26,7 @@ import { Constant } from '@assets/constants/constant';
 
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '../shared-service/shared-service';
+import { LoginStoreService } from '@services/login-store.service';
 @Component({
   selector: 'app-applicant-docs-upload',
   templateUrl: './applicant-docs-upload.component.html',
@@ -130,7 +131,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isPreDisEnable: any = {};
   modalForm: FormGroup;
   @ViewChild('closebutton', { static: true }) closebutton;
-
+  public roleType: any;
   constructor(
     private lovData: LovDataService,
     private router: Router,
@@ -144,7 +145,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
     private toasterService: ToasterService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private loginStoreService: LoginStoreService
   ) {
 
     var day = this.currentDate.getDate() + 1;
@@ -152,7 +154,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     var year = this.toDayDate.getFullYear();
     this.futureDate = new Date(year, month, day, 0, 0);
 
-
+    let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+   const roles = roleAndUserDetails.roles;
+    this.roleType = roles[0].roleType;
     // futureDate = this.currentDate.getDate() + 1
 
 
@@ -468,7 +472,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
           formGroup.get('documentRoleArray').setValue(this.codeRoleArray[code])
         }
 
-        if (localStorage.getItem('is_pred_done') === 'true' && formGroup.get('documentId').value) {
+        if (localStorage.getItem('is_pred_done') === 'true' ) {
+        // && formGroup.get('documentId').value
           this.isPreDisEnable[index] = true;
           formGroup.get('receivedBy').setValidators(Validators.required);
           formGroup.get('receivedBy').updateValueAndValidity();
@@ -480,7 +485,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
         }
       } else {
         formGroup.get('deferredDate').disable();
-        formGroup.get('deferredDate').setValue(null);
+        if(formGroup.get('deferralStatus').value == '0' ){
+          formGroup.get('deferredDate').setValue(null);
+        }        
         this.docNumberError = true;
       }
     }
@@ -519,9 +526,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       isReqApprove: new FormControl(Number(document['deferralStatus']) == 0 ? true : false || false),
       isShowStatus: new FormControl(Number(document['deferralStatus']) !== 0 ? true : false || false),
       deferralStatusArr: new FormControl(deferralStatusArr || ''),
-      deferralStatus: new FormControl(document['deferralStatus'] || ''),
+      deferralStatus: new FormControl(document['deferralStatus'] || '0'),
       documentRoleArray: new FormControl(documentRoleArray || '')
     });
+    
     return controls;
   }
 
@@ -1275,11 +1283,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.callAppiyoUploadApi();
     } else {
       this.callAppiyoUploadApi(true);
-      setTimeout(() => {
-        if (isRequested) {
-          this.onApproveRequest()
-        }
-      }, 1000)
+      // setTimeout(() => {
+      //   if (isRequested) {
+      //     this.onApproveRequest()
+      //   }
+      // }, 1000)
     }
   }
 
@@ -1293,6 +1301,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.isProfileSignUploaded = false;
         if (!isNoMsg) {
           this.toasterService.showSuccess('Documents saved successfully', '');
+          
         }
         this.isNewUpload = false;
         this.apiRes = [...this.documentArr];
@@ -1320,6 +1329,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
           }
         });
+        if(isNoMsg){
+          this.onApproveRequest()
+        }       
       });
   }
 
@@ -1329,8 +1341,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   onChangeRoleId(obj, index) {
     let controlValue = obj.controls[index];
-    if (controlValue.get('deferredDate').value && controlValue.get('receivedBy').value && controlValue.get('deferralStatus').value === '0') {
-      controlValue.get('isReqApprove').setValue(true)
+    if (this.roleType != 1 &&
+        controlValue.get('deferredDate').value && 
+        controlValue.get('receivedBy').value && 
+        Number(controlValue.get('deferralStatus').value  || 0) === 0) {
+          controlValue.get('isReqApprove').setValue(true)
     } else {
       controlValue.get('isReqApprove').setValue(false)
     }
@@ -1357,7 +1372,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     let data = {
       "deferralStatus": "1",
-      "deferralStatusValue": "Requested",
+      "deferralStatusValue": "Pending",
       "deferredDate": this.utilityService.getDateFormat(obj.value[index].deferredDate),
       "documentId": obj.value[index].documentId,
       "documentRoleId": obj.value[index].receivedBy,

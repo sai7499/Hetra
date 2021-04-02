@@ -97,10 +97,14 @@ export class CustomTextareaComponent
   }
 
   change($event) {
-    this.onChange($event.target.value);
-    this.onTouched($event.target.value);
-    this.inputError = $event.target.value ? false: true;
+    
     this.inputValue = String($event.target.value || '').toUpperCase();
+    this.onChange(this.inputValue);
+    this.onTouched(this.inputValue);
+    this.inputError = this.inputValue ? false: true;
+    // this.onChange($event.target.value);
+    // this.onTouched($event.target.value);
+    // this.inputError = $event.target.value ? false: true;
   }
 
   onBlurMethod(event) {
