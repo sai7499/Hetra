@@ -317,7 +317,7 @@
                               </div>
                                 <div formGroupName="pac" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                 <div class="form-group">
-                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldPAC"> {{ InsuranceProvidersLabel[1].insurance_type_name }}
+                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldPAC"> {{ InsuranceProvidersLabel[1].insurance_type_name ? InsuranceProvidersLabel[1].insurance_type_name:''}}
                                     <sub class="star_red_col">*</sub>
                                   </label>
                                   <div class="col-sm-6 col-md-4 col-lg-3 position-relative">

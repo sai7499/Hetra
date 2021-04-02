@@ -21,9 +21,8 @@
       <label> {{labels.supportDocument}} </label>
     </div>
     <div class="col-xs-6" [ngClass]="{
-      'col-sm-2':userType === 2,
-      'col-sm-3':userType === 1
-    }">
+        'col-sm-2':userType === 2,
+        'col-sm-3':userType === 1}">
       <label class="action"> {{labels.action}} </label>
     </div>
   </div>
@@ -39,15 +38,21 @@
           [maxlength]="labels?.validationData.remarks.maxLength" formControlName="creditCondition"
             placeholder="Content Goes here......"></textarea> -->
 
-          <app-custom-textarea [className]="'form-control'" [placeholder]="'Content Goes here......'"
-            [maxlength]="labels?.validationData.textarea.maxLength" formControlName="creditCondition" [readonly]="false">
+          <app-custom-textarea [className]="'form-control'" 
+            [placeholder]="'Content Goes here......'"
+            [maxlength]="labels?.validationData.textarea.maxLength" 
+            formControlName="creditCondition" 
+            [readonly]="userType == 1">
           </app-custom-textarea>
 
         </div>
         <div class="col-xs-6 col-sm-3 ">
 
-          <app-custom-textarea [className]="'form-control'" [placeholder]="'Content Goes here......'"
-            [maxlength]="labels?.validationData.textarea.maxLength" formControlName="salesResponse" [readonly]="false">
+          <app-custom-textarea [className]="'form-control'" 
+            [placeholder]="'Content Goes here......'"
+            [maxlength]="labels?.validationData.textarea.maxLength" 
+            formControlName="salesResponse" 
+            [readonly]="userType != 1">
           </app-custom-textarea>
 
           <!-- <textarea class="form-control" 

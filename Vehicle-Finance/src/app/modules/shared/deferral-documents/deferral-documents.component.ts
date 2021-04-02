@@ -266,7 +266,7 @@ export class DeferralDocumentsComponent implements OnInit {
 
     console.log('documentDetails', this.documentDetails);
     const formRecdVal = formArray['controls'][event.formArrayIndex].get('receivedOn').value;
-    const receivedOn = this.utilityService.convertDateTimeTOUTC(formRecdVal, 'DD/MM/YYYY HH:mm')
+    const receivedOn = this.utilityService.converDateToUTC(formRecdVal);
     event.isDeferred = "1";
     event.receivedBy = formArray['controls'][event.formArrayIndex].get('receivedBy').value;
     //event.receivedBy= "7";
@@ -401,8 +401,8 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
     
     //const todayDate = new Date()
     formValues.forEach((data)=>{
-      data.deferredDate = this.utilityService.getDateFormat(data.deferredDate),
-      data.receivedOn = this.utilityService.convertDateTimeTOUTC(data.receivedOn, 'DD/MM/YYYY HH:mm')
+      data.deferredDate = this.utilityService.getDateFormat(data.deferredDate);
+      data.receivedOn = this.utilityService.converDateToUTC(data.receivedOn);
       data.isDeferred = "1"
     })
 
@@ -457,8 +457,8 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
     
     const todayDate = new Date()
     formValues.forEach((data)=>{
-      data.deferredDate = this.utilityService.getDateFormat(data.deferredDate),
-      data.receivedOn = this.utilityService.convertDateTimeTOUTC(todayDate, 'DD/MM/YYYY HH:mm')
+      data.deferredDate = this.utilityService.getDateFormat(data.deferredDate);
+      data.receivedOn = this.utilityService.converDateToUTC(todayDate);
       data.isDeferred = "1"
     })
     console.log(formValues,'this.documentDetails', this.documentDetails)
