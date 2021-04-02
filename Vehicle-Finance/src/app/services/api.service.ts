@@ -1266,6 +1266,11 @@ export class ApiService {
       workflowId: 'c90c44ec907111eb917400505695f93b',
       processId: 'c93c897c907111eb81d900505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getTrancheDetails: {
+      workflowId: 'e0b3df06937311ebb3dd00505695f93b',
+      processId: 'e0d1e8de937311ebb6b200505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }
