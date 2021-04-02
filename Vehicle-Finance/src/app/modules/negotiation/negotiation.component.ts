@@ -228,6 +228,7 @@ export class NegotiationComponent implements OnInit {
   showErrorCollected: boolean;
   invalidPDC: boolean;
   onApproveOrSave: string;
+  defaultApprovalStatus: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -358,6 +359,11 @@ export class NegotiationComponent implements OnInit {
 
   onApprovePdcSpdc(type?: string) {
     let reqForApproval;
+    const approvingUser = this.keyValue ? this.keyValue : this.approvedBy;
+    if((!approvingUser || approvingUser.length == 0) && type == 'approval') {
+      this.toasterService.showError('Invalid user', 'Approving Authority');
+      return;
+    }
     this.onApproveOrSave = type;
     if(type == 'approval') {
       reqForApproval = true;
@@ -369,6 +375,7 @@ export class NegotiationComponent implements OnInit {
     this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.patchValue({
       approvalStatus: 1
     });
+    this.defaultApprovalStatus = this.isAlreadyApproved ? 1 : 0;
     const todayDate = new Date();
     const deferralDate = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.deferralDate;
     // console.log(this.utilityService.getDateFormat(deferralDate));
@@ -379,7 +386,7 @@ export class NegotiationComponent implements OnInit {
       requestedOn: this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm'),
       requestedBy: localStorage.getItem('userId'),
       approvedBy: this.keyValue ? this.keyValue : this.approvedBy,
-      approvalStatus: this.statusApproval ? Number(this.statusApproval.id) : 0,
+      approvalStatus: this.statusApproval ? Number(this.statusApproval.id) : this.defaultApprovalStatus,
       deferredDate : this.utilityService.getDateFormat(deferralDate),
       reqForApproval : reqForApproval
     }
@@ -457,6 +464,7 @@ export class NegotiationComponent implements OnInit {
       approvedBy: ''
     });
     this.userDetails = [];
+    this.keyValue = [];
   }
   collectedChequeMaxMin(value, i) {
     let pdcvalue = Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value
@@ -484,7 +492,7 @@ export class NegotiationComponent implements OnInit {
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setErrors(null);
     }
    
-   if (requiredNoofCheques && collectedNoofCheques && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
+   if (requiredNoofCheques && (collectedNoofCheques || collectedNoofCheques == 0) && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
       this.isNeededApproval = true;
     } else {
       this.isNeededApproval = false;
