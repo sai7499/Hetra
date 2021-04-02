@@ -455,6 +455,13 @@ export class ApplicantListComponent implements OnInit {
     });
   }
 
+  getAuthorize() {
+    const currentUrl = this.location.path();
+    localStorage.setItem('forApplicantUrl', currentUrl);
+    this.router.navigate([`pages/authorize-kyc/${this.leadId}`]);
+
+  }
+
   async downloadpdf() {
     document.getElementById("ekyc-to-print").classList.remove('dontdisplayed');
     document.getElementById("ekyc-to-print").classList.add('display');

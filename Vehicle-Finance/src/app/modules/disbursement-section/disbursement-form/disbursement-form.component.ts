@@ -6112,7 +6112,7 @@ onAuthorizeNext() {
     } else if (this.roleType == '4') {
       this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
     } else if (this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/check-list`]);
+      this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/authorize`]);
     }
     else if (this.roleType == '7') {
       this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
