@@ -3,293 +3,382 @@
 
     <div class="authorize-demo" id="authorize-demo">
 
-        <form  [formGroup]="authorizeForm" *ngIf="authorizeForm">
+        <form [formGroup]="authorizeForm" *ngIf="authorizeForm">
 
-        <div class="panel-group" id="accordion" formArrayName="applicantFormArray">
-            <!-- *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
-                    [formGroupName]="i" -->
-            <div class="panel panel-default" *ngFor="let applicant of applicantDetails; let i = index">
-                <a class="panel-heading panel-primary title collapsed" data-toggle="collapse" data-parent="#accordion"
-                    href="#applicantDetails{{i}}">
-                    <h4 *ngIf="applicantDetails.length >=1" class="panel-title">
-                        <a> {{applicant.applicantType}} <i class="fa fa-angle-down"></i> </a>
-                    </h4>
-                </a>
+            <div class="panel-group" id="accordion" formArrayName="applicantFormArray">
+                <div class="panel panel-default"
+                    *ngFor="let obj of authorizeForm.get('applicantFormArray')['controls']; let i=index;let l=last"
+                    [formGroupName]="i">
+                    <a class="panel-heading panel-primary title collapsed" data-toggle="collapse"
+                        data-parent="#accordion" href="#applicantDetails{{i}}">
+                        <h4 *ngIf="applicantDetails.length >=1" class="panel-title">
+                            <a> {{obj.get('applicantTypeDesc').value}} <i class="fa fa-angle-down"></i> </a>
+                        </h4>
+                    </a>
 
-                <div id="applicantDetails{{i}}">
-                    <div class="panel-body">
-                        <div class="clearfix">
+                    <div id="applicantDetails{{i}}">
+                        <div class="panel-body">
+                            <div class="clearfix">
 
-                            <div class="panel-group col-xs-12" id="accordion">
-                                <div class="panel panel-default">
-                                    <a class="panel-heading collapsed">
-                                        <h4 class="panel-title">
-                                            <a> Mobile Number Change </a>
-                                        </h4>
-                                    </a>
-                                    <div id="mobileNumber{{i}}">
-                                        <div class="panel-body">
-                                            <div class="row clearfix">
+                                <div class="panel-group col-xs-12" id="accordion"
+                                    *ngIf="obj.get('isMobileUpdate').value">
+                                    <div class="panel panel-default">
+                                        <a class="panel-heading collapsed">
+                                            <h4 class="panel-title">
+                                                <a> Mobile Number Change </a>
+                                            </h4>
+                                        </a>
+                                        <div id="mobileNumber{{i}}">
+                                            <div class="panel-body">
+                                                <div class="row clearfix">
 
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ext_mobile{{i}}">
-                                                    <label for="ext_mobile">Existing as per Record
-                                                    </label>
-                                                    <input type="text" class="form-control mandatory"
-                                                        value="{{applicant.extMobileNumber}}" id="ext_mob_{{i}}"
-                                                        placeholder="Extisting Mobile Number">
-                                                </div>
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="new_mobile{{i}}">
-                                                    <label for="new_mobile">New Number
-                                                    </label>
-                                                    <input type="text" class="form-control mandatory"
-                                                        id="new_mobile_{{i}}" placeholder="New Mobile Number">
-                                                </div>
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="first_doc_{{i}}">
-                                                    <label for="first_doc_">View Document
-                                                    </label>
-                                                    <input type="text" class="form-control mandatory"
-                                                        id="first_doc_{{i}}" placeholder="Document Id" name="input"
-                                                        type="text" class="form-control file-input" readonly
-                                                        value="{{applicant.mobDocId}}"
-                                                        (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="panel-group col-xs-12" id="accordion">
-                                <div class="panel panel-default">
-                                    <a class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion"
-                                        href="#address{{i}}">
-                                        <h4 class="panel-title">
-                                            <a> Current Address </a>
-                                        </h4>
-                                    </a>
-                                    <div id="address{{i}}">
-                                        <div class="panel-body">
-                                            <div class="row clearfix">
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ext_addr{{i}}">
-                                                    <h5>Existing as per Record</h5>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address1">Address Line 1</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 1'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address2">Address Line 2</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 2'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address3">Address Line 3</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 3'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address1">Pincode
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="ext_mobile{{i}}">
+                                                        <label for="ext_mobile">Existing as per Record
                                                         </label>
-                                                        <app-custom-input [type]="'number'" [placeholder]="'Pincode'">
+
+                                                        <app-custom-input [type]="'number'"
+                                                            [placeholder]="'Extisting Mobile Number'"
+                                                            formControlName="exMobile">
                                                         </app-custom-input>
                                                     </div>
 
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address2">City</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address3">District</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address1">State
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="new_mobile{{i}}">
+                                                        <label for="new_mobile">New Number
                                                         </label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address2">Country</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="new_addr_{{i}}">
-                                                    <h5>New Address</h5>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address1">Address Line 1</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 1'">
+                                                        <app-custom-input [type]="'number'"
+                                                            [placeholder]="'New Mobile Number'"
+                                                            formControlName="nwMobile">
                                                         </app-custom-input>
                                                     </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address2">Address Line 2</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 2'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address3">Address Line 3</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 3'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address1">Pincode
+                                                    <!-- 
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="first_doc_{{i}}">
+                                                        <label for="first_doc_">View Document
                                                         </label>
-                                                        <app-custom-input [type]="'number'" [placeholder]="'Pincode'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address2">City</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address3">District</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address1">State
-                                                        </label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-                                                    </div>
-
-                                                    <div
-                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
-                                                        <label for="address2">Country</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="sec_doc_{{i}}">
-
-
-                                                    <h5>View Document</h5>
-
-                                                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-doc">
                                                         <input type="text" class="form-control mandatory"
-                                                            id="sec_doc_{{i}}" placeholder="Document Id" name="input"
+                                                            id="first_doc_{{i}}" placeholder="Document Id" name="input"
                                                             type="text" class="form-control file-input" readonly
                                                             (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)">
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-group col-xs-12" id="accordion"
+                                    *ngIf="obj.get('isAddressUpdate').value">
+                                    <div class="panel panel-default">
+                                        <a class="panel-heading collapsed" data-toggle="collapse"
+                                            data-parent="#accordion" href="#address{{i}}">
+                                            <h4 class="panel-title">
+                                                <a> Current Address </a>
+                                            </h4>
+                                        </a>
+                                        <div id="address{{i}}">
+                                            <div class="panel-body">
+                                                <div class="row clearfix">
+
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="ext_addr{{i}}">
+                                                        <h5>Existing as per Record</h5>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address1">Address Line 1</label>
+                                                            <app-custom-input [type]="'alpha-numeric'"
+                                                                [placeholder]="'Address Line 1'"
+                                                                formControlName="exAddressLn1">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address2">Address Line 2</label>
+                                                            <app-custom-input [type]="'alpha-numeric'"
+                                                                [placeholder]="'Address Line 2'"
+                                                                formControlName="exAddressLn2">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address3">Address Line 3</label>
+                                                            <app-custom-input [type]="'alpha-numeric'"
+                                                                [placeholder]="'Address Line 3'"
+                                                                formControlName="exAddressLn3">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address1">Pincode
+                                                            </label>
+                                                            <app-custom-input [type]="'number'"
+                                                                [placeholder]="'Pincode'" formControlName="exPinCode">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address2">City</label>
+
+                                                            <app-vf-custom-select
+                                                                [values]="addressDetails[obj.get('applicantId').value]?.city"
+                                                                formControlName="exCityCode">
+                                                            </app-vf-custom-select>
+
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address3">District</label>
+                                                            <app-vf-custom-select
+                                                                [values]="addressDetails[obj.get('applicantId').value]?.district"
+                                                                formControlName="exDistrictCode">
+                                                            </app-vf-custom-select>
+
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address1">State
+                                                            </label>
+                                                            <app-vf-custom-select
+                                                                [values]="addressDetails[obj.get('applicantId').value]?.state"
+                                                                formControlName="exStateCode">
+                                                            </app-vf-custom-select>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address2">Country</label>
+
+                                                            <app-vf-custom-select
+                                                                [values]="addressDetails[obj.get('applicantId').value]?.country"
+                                                                formControlName="exCountryCode">
+                                                            </app-vf-custom-select>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="new_addr_{{i}}">
+                                                        <h5>New Address</h5>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address1">Address Line 1</label>
+                                                            <app-custom-input [type]="'alpha-numeric'"
+                                                                [placeholder]="'Address Line 1'"
+                                                                formControlName="nwAddressLn1">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address2">Address Line 2</label>
+                                                            <app-custom-input [type]="'alpha-numeric'"
+                                                                [placeholder]="'Address Line 2'"
+                                                                formControlName="nwAddressLn2">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address3">Address Line 3</label>
+                                                            <app-custom-input [type]="'alpha-numeric'"
+                                                                [placeholder]="'Address Line 3'"
+                                                                formControlName="nwAddressLn3">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address1">Pincode
+                                                            </label>
+                                                            <app-custom-input [type]="'number'"
+                                                                [placeholder]="'Pincode'" formControlName="nwPinCode">
+                                                            </app-custom-input>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address2">City</label>
+                                                            <app-vf-custom-select
+                                                                [values]="newAddressDetails[obj.get('applicantId').value]?.city"
+                                                                formControlName="nwCityCode">
+                                                            </app-vf-custom-select>
+
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address3">District</label>
+                                                            <app-vf-custom-select
+                                                                [values]="newAddressDetails[obj.get('applicantId').value]?.district"
+                                                                formControlName="nwDistrictCode">
+                                                            </app-vf-custom-select>
+
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address1">State
+                                                            </label>
+                                                            <app-vf-custom-select
+                                                                [values]="newAddressDetails[obj.get('applicantId').value]?.state"
+                                                                formControlName="nwStateCode">
+                                                            </app-vf-custom-select>
+                                                        </div>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                            <label for="address2">Country</label>
+                                                            <app-vf-custom-select
+                                                                [values]="newAddressDetails[obj.get('applicantId').value]?.country"
+                                                                formControlName="nwCountryCode">
+                                                            </app-vf-custom-select>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="sec_doc_{{i}}">
+
+                                                        <h5>View Document</h5>
+
+                                                        <div
+                                                            class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-doc">
+
+
+                                                            <ng-container
+                                                                *ngFor="let version of obj.get('addressProof').value">
+
+                                                                <input type="text" class="form-control mandatory"
+                                                                    id="sec_doc_{{i}}" placeholder="Document Id"
+                                                                    name="input" type="text"
+                                                                    class="form-control file-input" value="{{version}}"
+                                                                    readonly (click)="downloadDocs(version,i,$event)">
+                                                            </ng-container>
+
+                                                            <!-- <input type="text" class="form-control mandatory"
+                                                                id="sec_doc_{{i}}" placeholder="Document Id"
+                                                                name="input" type="text" class="form-control file-input"
+                                                                formControlName="addressProof" readonly
+                                                                (click)="downloadDocs(obj,i,$event)"> -->
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
 
                                             </div>
-
                                         </div>
+
                                     </div>
-
                                 </div>
-                            </div>
 
-                            <div class="panel-group col-xs-12" id="accordion">
-                                <div class="panel panel-default">
-                                    <a class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion"
-                                        href="#aadharNumber{{i}}">
-                                        <h4 class="panel-title">
-                                            <a> Aadhar Number</a>
-                                        </h4>
-                                    </a>
-                                    <div id="aadharNumber{{i}}">
-                                        <div class="panel-body">
-                                            <div class="row clearfix">
+                                <div class="panel-group col-xs-12" id="accordion"
+                                    *ngIf="obj.get('isAadharUpdate').value">
+                                    <div class="panel panel-default">
+                                        <a class="panel-heading collapsed" data-toggle="collapse"
+                                            data-parent="#accordion" href="#aadharNumber{{i}}">
+                                            <h4 class="panel-title">
+                                                <a> Aadhar Number</a>
+                                            </h4>
+                                        </a>
+                                        <div id="aadharNumber{{i}}">
+                                            <div class="panel-body">
+                                                <div class="row clearfix">
 
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ext_aadhar{{i}}">
-                                                    <label for="ext_aadhar">Existing as per Record
-                                                    </label>
-                                                    <input type="number" class="form-control mandatory"
-                                                        id="ext_aadhar_{{i}}" placeholder="Extisting Aadhar Number">
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="ext_aadhar{{i}}">
+                                                        <label for="ext_aadhar">Existing as per Record
+                                                        </label>
+
+                                                        <app-custom-input [type]="'number'"
+                                                            [placeholder]="'Extisting Aadhar Number'"
+                                                            formControlName="existingAadhar">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="new_aadhar{{i}}">
+                                                        <label for="new_aadhar">New Number
+                                                        </label>
+                                                        <app-custom-input [type]="'number'"
+                                                            [placeholder]="'New Aadhar Number'"
+                                                            formControlName="newAadhar">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                                        id="third_doc_{{i}}">
+                                                        <label for="third_doc_">View Document
+                                                        </label>
+                                                        <!-- 
+                                                        <input type="text" class="form-control mandatory"
+                                                            id="third_doc_{{i}}" placeholder="Document Id" name="input"
+                                                            type="text" class="form-control file-input" readonly
+                                                            formControlName="aadharProof"
+                                                            (click)="downloadDocs(obj,i,$event)"> -->
+
+                                                            <ng-container
+                                                            *ngFor="let version of obj.get('aadharProof').value">
+
+                                                            <input type="text" class="form-control mandatory"
+                                                                id="sec_doc_{{i}}" placeholder="Document Id"
+                                                                name="input" type="text"
+                                                                class="form-control file-input" value="{{version}}"
+                                                                readonly (click)="downloadDocs(version,i,$event)">
+                                                        </ng-container>
+
+                                                    </div>
+
                                                 </div>
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="new_aadhar{{i}}">
-                                                    <label for="new_aadhar">New Number
-                                                    </label>
-                                                    <input type="number" class="form-control mandatory"
-                                                        id="new_aadhar_{{i}}" placeholder="New Aadhar Number">
-                                                </div>
-
-                                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="third_doc_{{i}}">
-                                                    <label for="third_doc_">View Document
-                                                    </label>
-                                                    <input type="text" class="form-control mandatory"
-                                                        id="third_doc_{{i}}" placeholder="Document Id" name="input"
-                                                        type="text" class="form-control file-input" readonly
-                                                        (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)">
-                                                </div>
-
                                             </div>
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn" id="clickButton">
-                <div class="col-sm-12 text-center ">
-                    <button class="btn btn-primary hvr-sweep-to-left" type="button">Authorize</button>
-                    <button class="btn btn-primary hvr-sweep-to-right" type="button">Send
-                        Back to Credit</button>
+                <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn" id="clickButton">
+                    <div class="col-sm-12 text-center ">
+
+                        <button class="btn btn-primary dash_href marginAdd" type="button"
+                            (click)="onBack()"><a>Back</a></button>
+
+                        <button class="btn btn-primary hvr-sweep-to-left" type="button" disabled
+                            *ngIf="roleType == '4'">Authorize</button>
+                        <button class="btn btn-primary dash_href marginAdd" (click)="isSendCredit = true"
+                            *ngIf="roleType == '4'"> Send Back To Credit </button>
+
+                        <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a
+                                (click)="isSendToMaker = true">Send Back to CPC Maker</a></button>
+                    </div>
                 </div>
-            </div>
 
-        </div>
-    </form>
+            </div>
+        </form>
+
+        <app-custom-modal [modalDetails]="sendCreModalDetails" [showModal]="isSendCredit"
+            [buttons]="sendCreModalButtons" (onButtonCancel)="isSendCredit = false"
+            (onButtonClick)="sendBackToCredit(); isSendCredit= false">
+        </app-custom-modal>
+
+        <app-custom-modal [modalDetails]="sendMakModalDetails" [showModal]="isSendToMaker"
+            [buttons]="sendMakModalButtons" (onButtonCancel)="isSendToMaker = false"
+            (onButtonClick)="sendBackToMaker(); isSendToMaker= false"></app-custom-modal>
 
     </div>
 </div>
