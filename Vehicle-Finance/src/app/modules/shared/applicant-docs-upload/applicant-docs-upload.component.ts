@@ -508,7 +508,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     const controls = new FormGroup({
       documentName: new FormControl(document.documentName || ''),
-      documentNumber: new FormControl(document.documentNumber || ''),
+      documentNumber: new FormControl(String(document.documentNumber || '').toLocaleUpperCase() || ''),
       issueDate: new FormControl(
         this.utilityService.getDateFromString(document.issueDate) || ''
       ),
@@ -762,7 +762,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const formGroup = (this.uploadForm.get(type) as FormArray).at(index);
     const issueDate = formGroup.get('issueDate').value || '';
     const expiryDate = formGroup.get('expiryDate').value || '';
-    const documentNumber = formGroup.get('documentNumber').value;
+    const documentNumber = String(formGroup.get('documentNumber').value || '').toLocaleUpperCase();
     const documentId = formGroup.get('documentId').value;
     const documentName = formGroup.get('documentName').value;
     const isDeferred = formGroup.get('isDeferred').value;
