@@ -1063,40 +1063,46 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   individualImageUpload(request: DocumentDetails, index: number) {
     this.uploadService
-      .saveOrUpdateDocument([request])
+      .saveOrUpdateDocument([request], this.leadId)
       .subscribe((value: any) => {
-        if (value.Error !== '0') {
-          return;
-        }
-        this.toasterService.showSuccess('Document uploaded successfully', '');
+        // if (value.Error !== '0') {
+        //   return;
+        // }
+        // this.toasterService.showSuccess('Document uploaded successfully', '');
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
-        const documentId = processVariables.documentIds[0];
-        this.documentArr[index].documentId = documentId;
-        const subCategoryCode = this.documentArr[index].subCategoryCode;
-        const formArray = this.uploadForm.get(
-          `${this.FORM_ARRAY_NAME}_${subCategoryCode}`
-        ) as FormArray;
-        formArray
-          .at(this.documentArr[index].formArrayIndex)
-          .get('documentId')
-          .setValue(documentId);
-        console.log('this.documentArr', this.documentArr);
-        // documentIds.forEach((id, index) => {
-        //   this.documentArr[index].documentId = id;
-        // });
-        // this.documentArr.forEach((docs, index) => {
-        //   const formArrayIndex = docs.formArrayIndex;
-        //   if (formArrayIndex !== undefined) {
-        //     const formArray = this.uploadForm.get(
-        //       `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
-        //     ) as FormArray;
-        //     formArray
-        //       .at(formArrayIndex)
-        //       .get('documentId')
-        //       .setValue(documentIds[index]);
-        //   }
-        // });
+        if (processVariables.error.code === '0'){
+          this.toasterService.showSuccess('Document Uploaded Successfully', '')
+          const documentId = processVariables.documentIds[0];
+          this.documentArr[index].documentId = documentId;
+          const subCategoryCode = this.documentArr[index].subCategoryCode;
+          const formArray = this.uploadForm.get(
+            `${this.FORM_ARRAY_NAME}_${subCategoryCode}`
+          ) as FormArray;
+          formArray
+            .at(this.documentArr[index].formArrayIndex)
+            .get('documentId')
+            .setValue(documentId);
+          console.log('this.documentArr', this.documentArr);
+          // documentIds.forEach((id, index) => {
+          //   this.documentArr[index].documentId = id;
+          // });
+          // this.documentArr.forEach((docs, index) => {
+          //   const formArrayIndex = docs.formArrayIndex;
+          //   if (formArrayIndex !== undefined) {
+          //     const formArray = this.uploadForm.get(
+          //       `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
+          //     ) as FormArray;
+          //     formArray
+          //       .at(formArrayIndex)
+          //       .get('documentId')
+          //       .setValue(documentIds[index]);
+          //   }
+          // });
+        }else{
+          this.toasterService.showError(processVariables.error.message, '')
+        }
+        
       });
   }
 
@@ -1293,45 +1299,47 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   callAppiyoUploadApi(isNoMsg?) {
     this.uploadService
-      .saveOrUpdateDocument(this.documentArr)
+      .saveOrUpdateDocument(this.documentArr, this.leadId)
       .subscribe((value: any) => {
-        if (value.Error !== '0') {
-          return;
-        }
-        this.isProfileSignUploaded = false;
-        if (!isNoMsg) {
-          this.toasterService.showSuccess('Documents saved successfully', '');
-          
-        }
-        this.isNewUpload = false;
-        this.apiRes = [...this.documentArr];
-        console.log('saveOrUpdateDocument', value);
-        const processVariables = value.ProcessVariables;
-        const documentIds = processVariables.documentIds;
-        documentIds.forEach((id, index) => {
-          this.documentArr[index].documentId = id;
-        });
-        this.documentArr.forEach((docs, index) => {
-          const formArrayIndex = docs.formArrayIndex;
-          if (formArrayIndex !== undefined) {
-            const formArray = this.uploadForm.get(
-              `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
-            ) as FormArray;
-
-            formArray
-              .at(formArrayIndex)
-              .get('documentId')
-              .setValue(documentIds[index]);
-
-              console.log(docs, 'toggleDeferralDate')
-
-              this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
-
+        if (value.ProcessVariables.error.code === '0'){
+          this.isProfileSignUploaded = false;
+          if (!isNoMsg) {
+            this.toasterService.showSuccess('Documents saved successfully', '');
+            
           }
-        });
-        if(isNoMsg){
-          this.onApproveRequest()
-        }       
+          this.isNewUpload = false;
+          this.apiRes = [...this.documentArr];
+          console.log('saveOrUpdateDocument', value);
+          const processVariables = value.ProcessVariables;
+          const documentIds = processVariables.documentIds;
+          documentIds.forEach((id, index) => {
+            this.documentArr[index].documentId = id;
+          });
+          this.documentArr.forEach((docs, index) => {
+            const formArrayIndex = docs.formArrayIndex;
+            if (formArrayIndex !== undefined) {
+              const formArray = this.uploadForm.get(
+                `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
+              ) as FormArray;
+  
+              formArray
+                .at(formArrayIndex)
+                .get('documentId')
+                .setValue(documentIds[index]);
+  
+                console.log(docs, 'toggleDeferralDate')
+  
+                this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
+  
+            }
+          });
+          if(isNoMsg){
+            this.onApproveRequest()
+          }
+        }else{
+          this.toasterService.showError(value.ProcessVariables.error.message, '')
+        }
+               
       });
   }
 

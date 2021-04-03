@@ -273,12 +273,14 @@ export class DeferralDocumentsComponent implements OnInit {
     event.receivedOn = receivedOn;
     event.deferredDate = 
     this.utilityService.getDateFormat(formArray['controls'][event.formArrayIndex].get('deferredDate').value)
+    event.associatedId = formArray['controls'][event.formArrayIndex].get('associatedId').value;
+    event.associatedWith = formArray['controls'][event.formArrayIndex].get('associatedWith').value;
     this.individualImageUpload(event, index);
   }
 
   individualImageUpload(request, index: number) {
     this.uploadService
-      .saveOrUpdateDocument([request])
+      .saveOrUpdateDocument([request], this.leadId)
       .subscribe((value: any) => {  
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0'){
@@ -424,7 +426,7 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
 
   saveDefDoc(data) {
     this.uploadService
-      .saveOrUpdateDocument(data)
+      .saveOrUpdateDocument(data, this.leadId)
       .subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
         if(processVariables.error.code === '0'){
