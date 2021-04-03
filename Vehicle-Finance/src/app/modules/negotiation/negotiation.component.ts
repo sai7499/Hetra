@@ -360,7 +360,8 @@ export class NegotiationComponent implements OnInit {
   onApprovePdcSpdc(type?: string) {
     let reqForApproval;
     const approvingUser = this.keyValue ? this.keyValue : this.approvedBy;
-    if((!approvingUser || approvingUser.length == 0) && type == 'approval') {
+    // console.log('approvingUser', this.keyValue, this.approvedBy);
+    if(this.userDetails && this.userDetails.length  == 0 && type == 'approval') {
       this.toasterService.showError('Invalid user', 'Approving Authority');
       return;
     }
