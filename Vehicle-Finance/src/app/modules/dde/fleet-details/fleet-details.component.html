@@ -10,7 +10,7 @@
             <div class="col-sm-12 col-lg-12 text-right p-0" *ngIf="!isLoan360">
                 <span id="edit_vehicle_details_replace">
                     <a id="back_vehicle_details"><button class="btn btn-primary btn-spc" type="button"
-                            (click)="openUploadModal()">
+                            (click)="openUploadModal()" [disabled]="disableSaveBtn">
                             Upload
                         </button></a></span>
             </div>

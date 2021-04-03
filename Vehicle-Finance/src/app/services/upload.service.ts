@@ -59,7 +59,7 @@ export class UploadService {
     return this.httpService.docUpload(url, data);
   }
 
-  saveOrUpdateDocument(documentDetails: DocumentDetails[]) {
+  saveOrUpdateDocument(documentDetails: DocumentDetails[], leadId?) {
     const processId = this.apiService.api.saveOrUpdateDocument.processId;
     const workflowId = this.apiService.api.saveOrUpdateDocument.workflowId;
     const projectId = environment.projectIds.salesProjectId;
@@ -69,6 +69,7 @@ export class UploadService {
       workflowId,
       projectId,
       ProcessVariables: {
+        leadId,
         documentDetails,
         userId: localStorage.getItem('userId'),
       },
