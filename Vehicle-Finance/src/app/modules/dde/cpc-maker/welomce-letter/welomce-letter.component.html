@@ -11,7 +11,7 @@
             </ng-container>
 
         </div>
-        <div *ngIf="isTranch"  class="row" style="margin-top: 8px;">
+        <div *ngIf="isTranch && !showWelcomeLetter"  class="row" style="margin-top: 8px;">
     
             <div class="row col-sm-6 col-md-6 col-lg-8">
                 <div class="form-group col-sm-6 col-md-6 col-lg-6 text-right">
@@ -19,13 +19,13 @@
                 </div>
                 <div  class="form-group col-sm-6 col-md-6 col-lg-6">
                     <app-vf-custom-select  [values]="trancheLOVs" (change)="onTranchSelect($event.target.value)"
-                    [isDisabled]="trancheLOVs.length == 0"
+                    [isDisabled]="trancheLOVs ? trancheLOVs.length == 0 : ''"
                     >
                 </app-vf-custom-select>
                 </div>
             </div>
                
-            <div *ngIf="trancheLOVs.length > 0" class="col-sm-6 col-md-6 col-lg-4">
+            <div *ngIf="trancheLOVs && trancheLOVs.length > 0" class="col-sm-6 col-md-6 col-lg-4">
                 <button 
                     
                     type="button" 

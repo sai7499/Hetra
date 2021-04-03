@@ -875,7 +875,7 @@ export class InsuranceDetailsComponent implements OnInit {
         this.udfDetails = res.ProcessVariables.udfDetails;
         this.covidQuestions = res.ProcessVariables.covidQuestions;
         if (this.processVariables) {
-          if (this.motar == 'yes' && this.processVariables.insuranceProvider != null) {
+          if (this.motar == 'yes' && this.processVariables.vehicleType != null) {
             this.getInsuranceProvider();
             this.f.patchValue({
               insuranceProvider: this.processVariables.insuranceProvider
