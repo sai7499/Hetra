@@ -9,7 +9,7 @@
           </h4>
         </div>
       </div>
-      
+
       <div class="row" *ngIf="showAddApplicant">
         <div class="col-sm-12 col-lg-12 p-0">
           <h4 class="banner-con ">{{labels?.applicantDetailsTitle}}
@@ -17,8 +17,7 @@
           </h4>
         </div>
         <div class="col-sm-12 col-lg-12 p-0 text-right">
-          <button  class="btn btn-primary btn-spc " type="button"
-            (click)="navigateAddapplicant()">
+          <button class="btn btn-primary btn-spc " type="button" (click)="navigateAddapplicant()">
             Add Applicant
           </button>&nbsp;
           <!-- <button  class="btn btn-primary btn-spc " type="button"
@@ -49,7 +48,7 @@
                 let i = index
               ">
               <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
-              <td [attr.data-label]="labels?.wizardId">{{ item['wizardLeadId'] ? item['wizardLeadId'] : '-' }}</td> 
+              <td [attr.data-label]="labels?.wizardId">{{ item['wizardLeadId'] ? item['wizardLeadId'] : '-' }}</td>
               <td class="text-left" [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
               <td class="text-left" [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
               <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
@@ -62,51 +61,55 @@
                 </td>
                 <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
               </ng-container>
-              <td class="text-left" [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
+              <td class="text-left" [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType
+                : '-' }}</td>
               <td class="pad-0" [attr.data-label]="labels?.action">
                 <div class="flex-container">
-                  <ng-container  *ngIf="isLoan360 || disableSaveBtn">
+                  <ng-container *ngIf="isLoan360 || disableSaveBtn">
                     <div><a (click)="navigatePage(item.applicantId)" title="View applicant"><i
-                      class="fa fa-eye icon p-0" aria-hidden="true"></i></a></div>
+                          class="fa fa-eye icon p-0" aria-hidden="true"></i></a></div>
                   </ng-container>
                   <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
                     <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
-                      class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
-                <div><a 
-                     (click)="softDeleteApplicant(i, item.applicantId)"
-                    title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
+                          class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
+                    <div><a (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
+                          class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
                   </ng-container>
-                  <div *ngIf ="locationPath !=='lead-section'"> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
-                      data-target="#myModalApplicantImage" title="View Bureau Report"> <strong
+                  <div *ngIf="locationPath !=='lead-section'"> <a (click)="getApplicantImage(item.applicantId)"
+                      data-toggle="modal" data-target="#myModalApplicantImage" title="View Bureau Report"> <strong
                         class="icon">CB</strong></a></div>
-                  <div *ngIf ="locationPath !=='lead-section'"><a data-toggle="modal" data-target="#myModalApplicanteKYC" 
-                    title="View applicant eKYC"  (click)="geteKYCDetails(item.applicantId)"
-                      >
+                  <div *ngIf="locationPath !=='lead-section'"><a data-toggle="modal" data-target="#myModalApplicanteKYC"
+                      title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)">
                       <strong class="icon">ER</strong>
+                    </a></div>
+
+                  <div *ngIf="locationPath !=='lead-section' && (item.isAadharUpdated == '1' || item.isMobileUpdated == '1' || item.modifyCurrentAddress == '1') "><a (click)="getAuthorize()">
+                      <strong class="icon cus-size fa fa-address-book">
+                      </strong>
                     </a></div>
 
                 </div>
                 <ng-container *ngIf="isLoan360 || disableSaveBtn">
                   <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
-                    class="fa fa-pencil eye" aria-hidden="true"></i></a>
+                      class="fa fa-pencil eye" aria-hidden="true"></i></a>
                 </ng-container>
                 <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
                   <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
-                    class="fa fa-pencil icon" aria-hidden="true"></i></a>
-                &nbsp;<a class="desktop-hide"
-                  
-                  (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
-                    class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
+                      class="fa fa-pencil icon" aria-hidden="true"></i></a>
+                  &nbsp;<a class="desktop-hide" (click)="softDeleteApplicant(i, item.applicantId)"
+                    title="Delete applicant"><i class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
                 </ng-container>
 
                 <!-- [ngClass]="{'pointer_non':isDelete|| disableSaveBtn }"  -->
 
                 <!--  data-toggle="modal" data-target="#myModal" -->
-                <a *ngIf ="locationPath !=='lead-section'" (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
-                  data-target="#myModalApplicantImage" title="View Bureau Report"> <strong class="icon">CB</strong></a>
+                <a *ngIf="locationPath !=='lead-section'" (click)="getApplicantImage(item.applicantId)"
+                  class="desktop-hide" data-toggle="modal" data-target="#myModalApplicantImage"
+                  title="View Bureau Report"> <strong class="icon">CB</strong></a>
                 &nbsp;
-                <a *ngIf ="locationPath !=='lead-section'" data-toggle="modal" class="desktop-hide" data-target="#myModalApplicanteKYC"
-                  title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)">
+                <a *ngIf="locationPath !=='lead-section'" data-toggle="modal" class="desktop-hide"
+                  data-target="#myModalApplicanteKYC" title="View applicant eKYC"
+                  (click)="geteKYCDetails(item.applicantId)">
                   <strong class="icon">ER</strong>
                 </a>
                 <!-- <a data-toggle="modal"
@@ -174,12 +177,12 @@
     <div class="btn-sec clear-both row mar-btn cst_btm_btns">
       <div class="col-sm-5"></div>
       <div class="col-sm-7 text-right">
-        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()" >
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
           Back
         </button>
         <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
         <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()">
-    
+
           <!-- [routerLink]="['../vehicle-list']" -->
           Next
         </button>
@@ -187,17 +190,13 @@
     </div>
     <!-- <img [src]="imag" alt="Red dot" /> -->
   </form>
-  
+
   <!-- </div> -->
 
 
   <!-- </form> -->
-<app-custom-modal
-[modalDetails]="modalDetails"
-[showModal]="showModal"
-[buttons] = "modalButtons"
-(onButtonCancel) = "showModal = false"
-(onButtonClick)="callDeleteApplicant()"></app-custom-modal>
+  <app-custom-modal [modalDetails]="modalDetails" [showModal]="showModal" [buttons]="modalButtons"
+    (onButtonCancel)="showModal = false" (onButtonClick)="callDeleteApplicant()"></app-custom-modal>
 
   <!-- <div class="modal" id="myModal" 
   [ngStyle]="{'display': showModal ? 'block' : 'none' }">
@@ -250,7 +249,7 @@
     </div>
   </div>
 
-<!--   
+  <!--   
   <div class="modal" id="myModalApplicanteKYC">
     <div class="modal-dialog  modal-style">
       <div class="modal-content">
@@ -271,7 +270,7 @@
                 &times;
               </button>
             </div>
-            <main id="ekyc-to-print" class="ekyc-to-print" >
+            <main id="ekyc-to-print" class="ekyc-to-print">
               <div class="content-two">
                 <div class="row">
                   <div class="main-div-contents">
@@ -284,7 +283,7 @@
                         </thead>
                       </table>
                     </div>
-            
+
                     <div class="">
                       <table class="table table-responsive details main-table">
                         <thead>
@@ -296,7 +295,7 @@
                           </tr>
                         </thead>
                         <tbody>
-            
+
                           <tr class=" text-center">
                             <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
                             <td [attr.data-label]="labels?.firstName">{{panDetails?.nsdlFirstName}}</td>
@@ -307,7 +306,7 @@
                       </table>
                     </div>
                   </div>
-            
+
                   <div class="main-div-contents">
                     <div>
                       <table class="table table-responsive ">
@@ -318,7 +317,7 @@
                         </thead>
                       </table>
                     </div>
-            
+
                     <div class="">
                       <table class="table table-responsive details main-table">
                         <thead>
@@ -332,14 +331,15 @@
                           <tr>
                             <td [attr.data-label]="labels?.foundnl">{{appicanteKYCDetails?.foundNL}}</td>
                             <td [attr.data-label]="labels?.foundnltr">{{appicanteKYCDetails?.foundNLTR}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}
+                            </td>
                           </tr>
 
                         </tbody>
                       </table>
                     </div>
                   </div>
-            
+
                   <div class="main-div-contents">
                     <div>
                       <table class="table table-responsive">
@@ -350,11 +350,11 @@
                         </thead>
                       </table>
                     </div>
-            
+
                     <div class="tab-details">
                       <div class="p-0 row " id="">
                         <div class="row p-0">
-            
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Name</p>
@@ -373,10 +373,10 @@
                               <p class="">: {{adhaarDetails?.DOB}}</p>
                             </div>
                           </div>
-            
-               
+
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
-                          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Gender</p>
                             </div>
 
@@ -393,13 +393,13 @@
                               <p class="">:{{adhaarDetails?.careOfPerson}}</p>
                             </div>
                           </div>
-            
 
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
+
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Location</p>
                             </div>
-                            
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.locality}}</p>
                             </div>
@@ -413,12 +413,12 @@
                               <p class="">:{{adhaarDetails?.landmark}}</p>
                             </div>
                           </div>
-                         
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">City</p>
                             </div>
-                            
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.VTC}}</p>
                             </div>
@@ -427,17 +427,17 @@
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">State</p>
                             </div>
-                           
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.state}}</p>
                             </div>
                           </div>
-                       
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">District</p>
                             </div>
-                           
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.district}}</p>
                             </div>
@@ -446,17 +446,17 @@
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Country</p>
                             </div>
-                           
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.country}}</p>
                             </div>
                           </div>
-                        
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Pincode</p>
                             </div>
-                           
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.pincode}}</p>
                             </div>
@@ -465,7 +465,7 @@
                       </div>
                     </div>
                   </div>
-            
+
                   <div class="main-div-contents">
                     <div>
                       <table class="table table-responsive">
@@ -476,7 +476,7 @@
                         </thead>
                       </table>
                     </div>
-            
+
                     <div class="">
                       <table class="table table-responsive details main-table">
                         <thead>
@@ -495,20 +495,22 @@
                               let dedupeMatchedCriteria of dedupeMatchedCriteria;                  
                               let i = index
                             ">
-                            <td class="text-left" [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.fullName}</td>
+                            <td class="text-left" [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.fullName}
+                            </td>
                             <td [attr.data-label]="labels?.dob">{{dedupeMatchedCriteria?.dob}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{dedupeMatchedCriteria?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.maidenName">
+                              {{dedupeMatchedCriteria?.motherMaidenName}}</td>
                             <td [attr.data-label]="labels?.mobileNumber">{{dedupeMatchedCriteria?.mobile}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{dedupeMatchedCriteria?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{dedupeMatchedCriteria?.aadhar}}</td>
                             <td [attr.data-label]="labels?.passportNumber">{{dedupeMatchedCriteria?.passport}}</td>
                           </tr>
-            
+
                         </tbody>
                       </table>
                     </div>
                   </div>
-            
+
                   <div class="main-div-contents">
                     <div>
                       <table class="table table-responsive">
@@ -519,7 +521,7 @@
                         </thead>
                       </table>
                     </div>
-            
+
                     <div class="">
                       <table class="table table-responsive details main-table">
                         <thead>
@@ -541,20 +543,22 @@
                             ">
                             <td [attr.data-label]="labels?.ucicId">{{exactitem?.ucic}}</td>
                             <td class="text-left" [attr.data-label]="labels?.firstName">{{exactitem?.fullName}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{exactitem?.matchedCriteria}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">
+                              {{exactitem?.matchedCriteria}}</td>
                             <td [attr.data-label]="labels?.dob">{{exactitem?.dob}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}
+                            </td>
                             <td [attr.data-label]="labels?.mobileNumber">{{exactitem?.mobile}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{exactitem?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{exactitem?.aadhar}}</td>
                           </tr>
-            
-            
+
+
                         </tbody>
                       </table>
                     </div>
                   </div>
-            
+
                   <div class="main-div-contents">
                     <div>
                       <table class="table table-responsive">
@@ -565,7 +569,7 @@
                         </thead>
                       </table>
                     </div>
-            
+
                     <div class="">
                       <table class="table table-responsive details main-table">
                         <thead>
@@ -588,22 +592,24 @@
                             ">
                             <td [attr.data-label]="labels?.ucicId">{{probableitem?.ucic}}</td>
                             <td class="text-left" [attr.data-label]="labels?.firstName">{{probableitem?.fullName}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{probableitem?.matchedCriteria }}</td>
+                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">
+                              {{probableitem?.matchedCriteria }}</td>
                             <td [attr.data-label]="labels?.dob">{{probableitem?.dob}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{probableitem?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.maidenName">
+                              {{probableitem?.motherMaidenName}}</td>
                             <td [attr.data-label]="labels?.mobileNumber">{{probableitem?.mobile}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{probableitem?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{probableitem?.aadhar}}</td>
                             <td [attr.data-label]="labels?.passportNumber">{{probableitem?.passport}}</td>
                           </tr>
-            
+
                         </tbody>
                       </table>
                     </div>
                   </div>
-            
+
                   <div class="main-div-contents">
-            
+
                     <div>
                       <table class="table table-responsive">
                         <thead>
@@ -613,19 +619,19 @@
                         </thead>
                       </table>
                     </div>
-            
-            
+
+
                     <div class="tab-details">
                       <div class="p-0 row " id="">
                         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
-                         
-                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                              <p class="var-lab">{{labels?.productCategory}}</p> 
-                            </div>               
-                            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.product_cat_name}}</p>                
-                            </div>
-                          
+
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                            <p class="var-lab">{{labels?.productCategory}}</p>
+                          </div>
+                          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                            <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.product_cat_name}}</p>
+                          </div>
+
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
                           <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
@@ -636,14 +642,14 @@
                           </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
-                          
-                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                              <p class="var-lab">{{labels?.loanTenor}}</p> 
-                            </div>               
-                            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.req_tenure}}</p>                
-                            </div>
-                         
+
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                            <p class="var-lab">{{labels?.loanTenor}}</p>
+                          </div>
+                          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                            <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.req_tenure}}</p>
+                          </div>
+
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
                           <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
@@ -654,14 +660,14 @@
                           </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
-                          
-                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                              <p class="var-lab">{{labels?.eligibleLTV}}%</p> 
-                            </div>               
-                            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.ltv_as_per_policy}}</p>                
-                            </div>
-                          
+
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                            <p class="var-lab">{{labels?.eligibleLTV}}%</p>
+                          </div>
+                          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                            <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.ltv_as_per_policy}}</p>
+                          </div>
+
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
                           <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
@@ -670,19 +676,19 @@
                           <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
                             <p class="">:&nbsp;{{collateralVehicleDetails?.age_after_tenure}}</p>
                           </div>
-                        </div>           
-                        
-            
+                        </div>
+
+
                       </div>
                     </div>
-            
-                    
+
+
                   </div>
-            
+
                 </div>
               </div>
             </main>
-           
+
           </div>
         </div>
         <!-- <div class="modal-body" >
@@ -715,4 +721,3 @@
 <!-- Header -->
 <!-- <div class="image-content"  [innerHTML]="cibilImage" > </div>  
   </div> -->
-

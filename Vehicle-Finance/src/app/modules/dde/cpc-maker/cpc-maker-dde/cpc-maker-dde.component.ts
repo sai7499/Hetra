@@ -90,13 +90,15 @@ export class CpcMakerDdeComponent implements OnInit {
       return 5;
     } else if (url.includes('check-list') && this.roleType == '5' ) {
       return 4;
-    } else if (url.includes('disbursement') && this.roleType == '5') {
+    } else if (url.includes('authorize')  && (this.roleType == '5') ) {
       return 5;
-    } else if (url.includes('pdc-details') && (this.roleType == '4' || this.roleType == '7')) {
+    } else if (url.includes('disbursement') && this.roleType == '5') {
       return 6;
-    } else if (url.includes('remarks') && this.roleType == '7') {
+    } else if (url.includes('authorize')  && (this.roleType == '4') ) {
+      return 6;
+    } else if (url.includes('pdc-details') && (this.roleType == '4' || this.roleType == '7')) {
       return 7;
-    } else if (url.includes('authorize') ) {
+    } else if (url.includes('remarks') && this.roleType == '7') {
       return 8;
     }
 

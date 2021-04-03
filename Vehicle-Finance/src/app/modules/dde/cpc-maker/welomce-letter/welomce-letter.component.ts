@@ -105,6 +105,9 @@ export class WelomceLetterComponent implements OnInit {
       value : 'Tranche_4'
     },
   ]
+  trancheLOVs: any;
+  isTranch: any;
+  trancheId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
@@ -146,16 +149,41 @@ export class WelomceLetterComponent implements OnInit {
     this.sharedService.productCatCode$.subscribe((value) => {
       this.productCatCode = value;
     });
+    this.getTrancheDetails(); 
   }
 
   onModalClick() {
     this.showModal = false;
   }
 
-
-  getWelcomeLetterDetails() {
+  getTrancheDetails() {
     const data = this.leadId;
-    this.WelcomeService.getwelcomeLetterDetails(data, this.isLoanBooking).subscribe((res: any) => {
+    this.WelcomeService.getTrancheDetails(data).subscribe((res: any) => {
+      if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
+        const response = res;
+        console.log(response);
+        this.trancheLOVs = response.ProcessVariables.trancheLOVs;
+        this.isTranch = response.ProcessVariables.istranch;
+      }
+    })
+  }
+
+  onTranchSelect(data) {
+    console.log('data', data);
+    this.trancheId = Number(data);
+  }
+
+
+  getWelcomeLetterDetails(type?) {
+    if (type == 'welcome') {
+      this.trancheId = 0
+    }
+    if (!this.trancheId && type != 'welcome') {
+      this.toasterService.showError('Plase select one tranch', '')
+      return;
+    }
+    const data = this.leadId;
+    this.WelcomeService.getwelcomeLetterDetails(data, this.isLoanBooking, this.trancheId).subscribe((res: any) => {
       // console.log(res)
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
         const processVariables = res.ProcessVariables;
@@ -380,8 +408,8 @@ export class WelomceLetterComponent implements OnInit {
       });
     }
   }
-  viweWelcomeLetter(){
-    this.getWelcomeLetterDetails();
+  viweWelcomeLetter(type?){
+    this.getWelcomeLetterDetails(type);
   }
 
   getLeadSectiondata() {

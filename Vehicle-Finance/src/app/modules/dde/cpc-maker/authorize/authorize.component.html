@@ -248,13 +248,12 @@
                                                     </div>
 
                                                     <div class="form-group col-sm-6 col-md-4 col-lg-3"
-                                                        id="sec_doc_{{i}}">
+                                                        id="sec_doc_{{i}}" *ngIf="!isDDE">
 
                                                         <h5>View Document</h5>
 
                                                         <div
                                                             class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-doc">
-
 
                                                             <ng-container
                                                                 *ngFor="let version of obj.get('addressProof').value">
@@ -266,11 +265,15 @@
                                                                     readonly (click)="downloadDocs(version,i,$event)">
                                                             </ng-container>
 
-                                                            <!-- <input type="text" class="form-control mandatory"
-                                                                id="sec_doc_{{i}}" placeholder="Document Id"
-                                                                name="input" type="text" class="form-control file-input"
-                                                                formControlName="addressProof" readonly
-                                                                (click)="downloadDocs(obj,i,$event)"> -->
+                                                            <ng-container
+                                                                *ngIf="!obj.get('addressProof').value || obj.get('addressProof').value.length === 0">
+                                                                <input type="text" class="form-control mandatory"
+                                                                    id="sec_doc_{{i}}" placeholder="Document Id"
+                                                                    name="input" type="text"
+                                                                    class="form-control file-input"
+                                                                    formControlName="addressProof" readonly>
+                                                            </ng-container>
+
                                                         </div>
 
                                                     </div>
@@ -319,23 +322,26 @@
 
                                                     <div class="form-group col-sm-6 col-md-4 col-lg-3"
                                                         id="third_doc_{{i}}">
-                                                        <label for="third_doc_">View Document
+                                                        <label for="third_doc_" *ngIf="!isDDE">View Document
                                                         </label>
-                                                        <!-- 
-                                                        <input type="text" class="form-control mandatory"
-                                                            id="third_doc_{{i}}" placeholder="Document Id" name="input"
-                                                            type="text" class="form-control file-input" readonly
-                                                            formControlName="aadharProof"
-                                                            (click)="downloadDocs(obj,i,$event)"> -->
 
-                                                            <ng-container
+                                                        <ng-container
+                                                            *ngIf="!obj.get('aadharProof').value || obj.get('aadharProof').value.length === 0">
+
+                                                            <input type="text" class="form-control mandatory"
+                                                                id="third_doc_{{i}}" placeholder="Document Id"
+                                                                name="input" type="text" class="form-control file-input"
+                                                                readonly formControlName="aadharProof">
+                                                        </ng-container>
+
+                                                        <ng-container
                                                             *ngFor="let version of obj.get('aadharProof').value">
 
                                                             <input type="text" class="form-control mandatory"
                                                                 id="sec_doc_{{i}}" placeholder="Document Id"
-                                                                name="input" type="text"
-                                                                class="form-control file-input" value="{{version}}"
-                                                                readonly (click)="downloadDocs(version,i,$event)">
+                                                                name="input" type="text" class="form-control file-input"
+                                                                value="{{version}}" readonly
+                                                                (click)="downloadDocs(version,i,$event)">
                                                         </ng-container>
 
                                                     </div>
@@ -359,12 +365,15 @@
                             (click)="onBack()"><a>Back</a></button>
 
                         <button class="btn btn-primary hvr-sweep-to-left" type="button" disabled
-                            *ngIf="roleType == '4'">Authorize</button>
+                            *ngIf="roleType == '5'">Authorize</button>
                         <button class="btn btn-primary dash_href marginAdd" (click)="isSendCredit = true"
                             *ngIf="roleType == '4'"> Send Back To Credit </button>
 
                         <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a
                                 (click)="isSendToMaker = true">Send Back to CPC Maker</a></button>
+
+                        <button class="btn btn-primary dash_href marginAdd" type="button" (click)="onNext()"
+                            *ngIf="roleType == '5' || roleType == '4'"><a>Next</a></button>
                     </div>
                 </div>
 

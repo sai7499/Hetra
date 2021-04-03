@@ -13,7 +13,7 @@ export class WelcomeService {
 
   constructor(private http: HttpClient, private httpService: HttpService, private apiService: ApiService) { }
 
-  getwelcomeLetterDetails(leadId, isLoanBooking) {
+  getwelcomeLetterDetails(leadId, isLoanBooking, trancheId) {
 
     const processId = this.apiService.api.welcomeLetter.processId;
     const workflowId = this.apiService.api.welcomeLetter.workflowId;
@@ -23,7 +23,8 @@ export class WelcomeService {
       processId: processId,
       ProcessVariables: {
         "leadId": leadId,
-        isLoanBooking
+        isLoanBooking,
+        trancheId
     },
 
       workflowId: workflowId,
@@ -48,6 +49,26 @@ getDeliveryLetterDetails(leadId) {
 
   const processId = this.apiService.api.deliveryLetter.processId;
   const workflowId = this.apiService.api.deliveryLetter.workflowId;
+  const projectId = environment.projectIds.salesProjectId;
+
+  const body: RequestEntity = {
+    processId: processId,
+    ProcessVariables: {
+      "leadId": leadId
+  },
+
+    workflowId: workflowId,
+    projectId: projectId
+  }
+  //const test = body;
+  const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+  return this.httpService.post(url, body);
+}
+
+getTrancheDetails(leadId) {
+
+  const processId = this.apiService.api.getTrancheDetails.processId;
+  const workflowId = this.apiService.api.getTrancheDetails.workflowId;
   const projectId = environment.projectIds.salesProjectId;
 
   const body: RequestEntity = {

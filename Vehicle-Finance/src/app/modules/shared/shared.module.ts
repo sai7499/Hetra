@@ -52,6 +52,8 @@ import { WindowModule } from '@progress/kendo-angular-dialog';
 import { CustomModalComponent } from './custom-modal/custom-modal.component';
 import { DeferralDocumentsComponent } from './deferral-documents/deferral-documents.component';
 import { CustomTextareaComponent } from './custom-textarea/custom-textarea.component';
+import { AuthorizeKycComponent } from './authorize-kyc/authorize-kyc.component';
+import { AuthorizeComponent } from '@modules/dde/cpc-maker/authorize/authorize.component';
 setTheme('bs4');
 
 @NgModule({
@@ -87,7 +89,9 @@ setTheme('bs4');
     SharedUserDefinedFieldsComponent,
     CustomModalComponent,
     CustomTextareaComponent,
-    DeferralDocumentsComponent
+    DeferralDocumentsComponent,
+    AuthorizeKycComponent,
+    AuthorizeComponent,
   ],
   imports: [
     CommonModule,
@@ -134,7 +138,8 @@ setTheme('bs4');
     UploadDiscussionComponent,
     WelomceLetterComponent,
     CustomTextareaComponent,
-    CustomModalComponent
+    CustomModalComponent,
+    AuthorizeComponent
   ]
 })
 export class SharedModule { }
