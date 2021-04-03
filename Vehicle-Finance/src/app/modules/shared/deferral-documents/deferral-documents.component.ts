@@ -163,7 +163,7 @@ export class DeferralDocumentsComponent implements OnInit {
     data.forEach((element) => {
       const formGroup = new FormGroup({
         documentType: new FormControl(element.documentType || ''),
-        deferredDate: new FormControl(this.utilityService.getDateFromString(element.deferredDate) || ''),
+        deferredDate: new FormControl({value:this.utilityService.getDateFromString(element.deferredDate) || '',disabled: true}),
         receivedBy: new FormControl(element.receivedBy || '',[Validators.required]),
         receivedOn: new FormControl({ value:element.receivedOn ?  this.utilityService.getDateFromString(element.receivedOn) : this.rcvdOn, disabled: true }),
 
