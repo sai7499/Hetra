@@ -1255,3 +1255,6 @@ th {
 .float-right {
     float: right;
 }
+.input-upper {
+    text-transform: uppercase;
+  }
