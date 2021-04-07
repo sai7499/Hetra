@@ -303,21 +303,38 @@
                                                         id="ext_aadhar{{i}}">
                                                         <label for="ext_aadhar">Existing as per Record
                                                         </label>
-
+                                                    <div class="input-group input-medium">
                                                         <app-custom-input [type]="'number'"
-                                                            [placeholder]="'Extisting Aadhar Number'"
-                                                            formControlName="existingAadhar">
-                                                        </app-custom-input>
+                                                        [placeholder]="'Extisting Aadhar Number'"
+                                                        formControlName="existingAadhar">
+                                                    </app-custom-input>
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" (click)="onRetreiveAdhar(i,'ext')" (mouseleave)="onRelieve(i,'ext')"
+                                                          (blur)="onRelieve(i,'ext')">
+                                                          <i class="fa fa-credit-card"></i>
+                                                        </button>
+                                                      </span>
+                                                    </div>
+                                                        
                                                     </div>
 
                                                     <div class="form-group col-sm-6 col-md-4 col-lg-3"
                                                         id="new_aadhar{{i}}">
                                                         <label for="new_aadhar">New Number
                                                         </label>
-                                                        <app-custom-input [type]="'number'"
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input [type]="'number'"
                                                             [placeholder]="'New Aadhar Number'"
                                                             formControlName="newAadhar">
                                                         </app-custom-input>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" (click)="onRetreiveAdhar(i,'new')" (mouseleave)="onRelieve(i,'new')"
+                                                              (blur)="onRelieve(i,'new')">
+                                                              <i class="fa fa-credit-card"></i>
+                                                            </button>
+                                                          </span>
+                                                        </div>
+                                                        
                                                     </div>
 
                                                     <div class="form-group col-sm-6 col-md-4 col-lg-3"

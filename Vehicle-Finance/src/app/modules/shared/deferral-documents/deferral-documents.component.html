@@ -1,7 +1,7 @@
 <main class="mar-top90">
   <app-lead-section-header></app-lead-section-header>
   <div class="content">
-    <div class=" mar-top" [formGroup]="deferralForm" *ngIf="deferralForm">
+    <div class=" mar-top" [formGroup]="deferralForm" *ngIf="deferralForm" >
       <h3 class="banner-con">Deferral Document Details
       </h3>        
       <form formArrayName="defDocumentArray">
@@ -19,21 +19,21 @@
               </tr>
             </thead>
             <tbody>
-             <ng-container *ngFor="let detail of deferralForm.get('defDocumentArray')['controls']; let i = index">
-              <tr [formGroupName]="i">
+             <ng-container  *ngFor="let detail of deferralForm.get('defDocumentArray')['controls']; let i = index" >
+              <tr  [formGroupName]="i">
                 <td>{{ i + 1 }}</td>
                 <td><app-vf-custom-select formControlName="documentType" [values]="docName">
                 </app-vf-custom-select></td>
   
                 <td><kendo-datepicker class="form-control mandatory" formControlName="deferredDate"
-                  [format]="'dd/MM/yyyy'" [min]="minDefDate"  [activeView]="'decade'">
+                  [format]="'dd/MM/yyyy'"   [activeView]="'decade'">
                 </kendo-datepicker>
-                <div class="invalid-feedback">
+                <!-- <div class="invalid-feedback">
                   <div *ngIf="this.deferralForm.get('defDocumentArray')['controls'][i].get('deferredDate').value &&
                   this.deferralForm.get('defDocumentArray')['controls'][i].get('deferredDate').invalid">
                      Invalid date
                   </div>
-                </div>
+                </div> -->
               </td>
   
                 <td class="upload-icon"><label
@@ -55,17 +55,16 @@
   
                   <ng-autocomplete class="custom-select-box" [data]="roleIdList" [searchKeyword]="item"
                     (selected)='selectRoleId(i)' (inputChanged)='onRoleIdSearch($event)'
-                    (inputCleared)='onRoleIdCleared($event)'
+                    (inputCleared)='onRoleIdCleared($event,i)'
                     [itemTemplate]="roleIdTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="receivedBy"
                     [placeHolder]="'Received By'">
                   </ng-autocomplete>
       
-                  <div class="invalid-feedback">
-                    <div *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').hasError('required') && isDirty"> Received By
+                  
+                    <div class="invalid-feedback" *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').hasError('required') && isDirty[i]"> Received By
                       required.</div>
-                    <div *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').value && !isRoleIdCheck[i] && isDirty"> Invalid User</div>
-                      
-                  </div>
+                      <div  class="invalid-feedback" *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').value && !isRoleIdCheck[i] && isDirty[i]"> Invalid User</div>
+                  
                   <ng-template #roleIdTemplate let-item>
                     <a [innerHTML]="item"></a>
                   </ng-template>
@@ -88,7 +87,7 @@
             <div class="text-center">
               <button class="btn btn-primary" 
               [routerLink]="['/pages/dashboard']">Back</button>
-              <button class="btn btn-primary" (click)="onSave()">Save</button>
+              <button class="btn btn-primary" (click)="onSave()" [disabled]="!isEnableSave">Save</button>
               <button class="btn btn-primary" (click)="onSubmit()" >Submit</button>
               <!-- [disabled]="!isAllDocUpload" -->
             </div>
