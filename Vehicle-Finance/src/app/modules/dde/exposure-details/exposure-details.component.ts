@@ -254,8 +254,7 @@ export class ExposureDetailsComponent implements OnInit {
     for (let i = 0; i < this.exposureArray.length; i++) {         
       // this.liveloanArray.push(this.getExposureDetails[i]);
 
-      var totalLoanAmount = this.exposureArray.value.map((ele) => Number(ele.loanAmount));
-      
+      var totalLoanAmount = this.exposureArray.value.map((ele) => Number(ele.currentPos));      
   }
   console.log(totalLoanAmount);
 
