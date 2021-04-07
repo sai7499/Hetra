@@ -176,8 +176,11 @@
                       <div class="form-group col-sm-3 col-md-2" *ngIf="!isLoan360">
                         <label>Actions </label>
                         <p>
-                          <label><i class="fa fa-upload fa-3 custom-file-label" aria-hidden="true"
+
+                          <label><i [ngClass]="{'cus-disabled': uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDisableFile').value}"
+                              class="fa fa-upload fa-3 custom-file-label" aria-hidden="true"
                               id="add_more_documents_upload1a" (click)="
+                              uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value ? '' :
                               uploadDocument(
                                 FORM_ARRAY_NAME + '_' + subCat.code,
                                 i,
@@ -199,12 +202,13 @@
                         </p>
                       </div>
                     </div>
-                    <!-- [ngClass]="{'cus-disabled': uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value}" -->
                     <div class="row" *ngIf="subCat.code !== 3">
+
                       <!-- *ngIf="subCat.code !== 3" -->
                       <div class="col-sm-3 col-md-2" style="margin-top: 15px;">
                         <input formControlName="isDeferred" name="isDeferred" type="checkbox"
-                          (change)="toggleDeferralDate(subCat.code, i)" />
+                          (change)="toggleDeferralDate(subCat.code, i)"
+                          [ngClass]="{'cus-disabled': uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('file').value}" />
                         <span id="address_section_checkbox_text" class="is-deferred">&nbsp;Is Deferred ?
                         </span>
                       </div>
@@ -233,8 +237,7 @@
 
                           <app-vf-custom-select
                             [values]="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('documentRoleArray').value ? uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('documentRoleArray').value : ''"
-                            [id]="'document_role'" formControlName="receivedBy" 
-                            [isRequired]="'Document Role Required'"
+                            [id]="'document_role'" formControlName="receivedBy" [isRequired]="'Document Role Required'"
                             [isDirty]="isDirty"
                             (change)="onChangeRoleId(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                           </app-vf-custom-select>
@@ -242,7 +245,7 @@
 
                         <div class="form-group col-sm-3 col-md-2"
                           *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isReqApprove').value">
-                          
+
                           <!-- uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('deferralStatus').value === '0'" -->
                           <button class="btn btn-primary dash_href cus-mar" type="button" id="request"
                             *ngIf="!isLoan360" data-toggle="modal" data-target="#approvalDefferal"
