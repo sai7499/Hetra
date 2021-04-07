@@ -52,6 +52,8 @@ export class AuthorizeComponent implements OnInit {
     imageUrl: string;
     imageType: string;
   };
+  apiNewAadharNo: any = [];
+  apiExAadharNo: any = [];
 
 
   constructor(private _fb: FormBuilder, private applicantService: ApplicantService, private draggableContainerService: DraggableContainerService,
@@ -440,6 +442,43 @@ export class AuthorizeComponent implements OnInit {
         `pages/cpc-checker/${this.leadId}/disbursement`,
       ]);
     }
+  }
+  onRetreiveAdhar(index, type: string) {
+    const formArray = this.authorizeForm.get('applicantFormArray') as FormArray;
+    const formGroup = formArray.at(index);
+    if (type == 'ext') {
+      this.apiExAadharNo[index] = formGroup.get('existingAadhar').value;
+    } else if (type == 'new') {
+      this.apiNewAadharNo[index] = formGroup.get('newAadhar').value;
+    }
+    const aadharValue = type == 'ext' ? formGroup.get('existingAadhar').value : formGroup.get('newAadhar').value;
+    this.applicantService.retreiveAdhar(aadharValue).subscribe((res) => {
+      if (res['ProcessVariables'].error.code == "0") {
+        const uid = res['ProcessVariables'].uid;
+        if (type == 'ext') {
+          formGroup.get('existingAadhar').setValue(uid)
+        } else if (type == 'new') {
+          formGroup.get('newAadhar').setValue(uid)
+        }
+
+      }
+      else {
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
+      }
+    })
+  }
+  onRelieve(index, type: string) {
+    const formArray = this.authorizeForm.get('applicantFormArray') as FormArray;
+    const formGroup = formArray.at(index);
+    const aadharValue = type == 'ext' ? formGroup.get('existingAadhar').value : formGroup.get('newAadhar').value;
+    if (aadharValue) {
+      if (type == 'ext') {
+        formGroup.get('existingAadhar').setValue(this.apiExAadharNo[index] || formGroup.get('existingAadhar').value)
+      } else if (type == 'new') {
+        formGroup.get('newAadhar').setValue(this.apiNewAadharNo[index] || formGroup.get('newAadhar').value)
+      }
+    }
+
   }
 
 }
