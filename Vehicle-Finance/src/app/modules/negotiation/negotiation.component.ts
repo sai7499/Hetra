@@ -462,7 +462,7 @@ export class NegotiationComponent implements OnInit {
       approvedBy: ''
     });
     this.userDetails = [];
-    this.keyValue = [];
+    this.keyValue = null;
   }
   collectedChequeMaxMin(value, i) {
     let pdcvalue = Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value
@@ -2890,9 +2890,16 @@ setCrosSell(i,val){
     this.getLeadId();
     const formData = this.createNegotiationForm.getRawValue();
     //console.log('Savedata',formData);
-      if(this.onApproveOrSave != 'approval' && this.isPredDone == 'true') {
-        this.onApprovePdcSpdc();
-      }
+    const approvingAuthority =  this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.get('approvedBy').value;
+    console.log('approvingAuthority', approvingAuthority, this.userDetails);
+    
+      if(this.userDetails && this.userDetails.length  == 0 && approvingAuthority) {
+        this.toasterService.showError('Invalid user', 'Approving Authority');
+        return;
+      }   
+    if(this.onApproveOrSave != 'approval' && this.isPredDone == 'true') {
+      this.onApprovePdcSpdc();
+    }
     
     this.Applicants = [];
     this.LeadReferenceDetails.forEach((element) => {
