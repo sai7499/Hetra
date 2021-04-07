@@ -905,7 +905,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 40: case 41:
-        if(this.roleType == '2') {
+        if(this.roleType == '2' || this.roleType == '1') {
           this.taskName = 'PDD'
         } else {
         this.taskName = 'CPC-PDD';

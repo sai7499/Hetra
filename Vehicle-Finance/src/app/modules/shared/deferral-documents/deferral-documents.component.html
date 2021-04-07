@@ -1,7 +1,7 @@
 <main class="mar-top90">
   <app-lead-section-header></app-lead-section-header>
-  <div class="content">
-    <div class=" mar-top" [formGroup]="deferralForm" *ngIf="deferralForm" >
+  <div class="content  mar-top">
+    <div class="" [formGroup]="deferralForm" *ngIf="deferralForm" >
       <h3 class="banner-con">Deferral Document Details
       </h3>        
       <form formArrayName="defDocumentArray">
@@ -26,7 +26,7 @@
                 </app-vf-custom-select></td>
   
                 <td><kendo-datepicker class="form-control mandatory" formControlName="deferredDate"
-                  [format]="'dd/MM/yyyy'"   [activeView]="'decade'">
+                  [format]="'dd/MM/yyyy'"  [activeView]="'month'">
                 </kendo-datepicker>
                 <!-- <div class="invalid-feedback">
                   <div *ngIf="this.deferralForm.get('defDocumentArray')['controls'][i].get('deferredDate').value &&
@@ -38,14 +38,16 @@
   
                 <td class="upload-icon"><label
                   ><i
-                    class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                    class="fa fa-upload fa-3 custom-file-label cursor-pointer "
                     aria-hidden="true"
                     id="add_more_documents_upload1a"
                     (click)="uploadDocs(i)"
-                  ></i></label></td>
+                    title="Upload Document"
+                  ></i>
+                </label></td>
   
   
-                <td class="file-input" (click)="downloadDocs(i)">{{documentArr(i)}}</td>
+                <td class="file-input" (click)="downloadDocs(i)" title="View Document">{{documentArr(i)}}</td>
   
   
                 <td>
@@ -61,7 +63,7 @@
                   </ng-autocomplete>
       
                   
-                    <div class="invalid-feedback" *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').hasError('required') && isDirty[i]"> Received By
+                    <div class="invalid-feedback" *ngIf="!deferralForm.get('defDocumentArray').controls[i].get('receivedBy').value && isDirty[i]"> Received By
                       required.</div>
                       <div  class="invalid-feedback" *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').value && !isRoleIdCheck[i] && isDirty[i]"> Invalid User</div>
                   
@@ -75,7 +77,7 @@
               </td>
   
                 <td><kendo-datepicker class="form-control mandatory" formControlName="receivedOn"
-                  [format]="'dd/MM/yyyy HH:mm'"  [activeView]="'decade'"  >
+                  [format]="'dd/MM/yyyy HH:mm'"  [activeView]="'month'"  >
                 </kendo-datepicker>
   
                 
@@ -83,7 +85,7 @@
              </ng-container>
             </tbody>
           </table>
-          <div class="row">
+          <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
             <div class="text-center">
               <button class="btn btn-primary" 
               [routerLink]="['/pages/dashboard']">Back</button>

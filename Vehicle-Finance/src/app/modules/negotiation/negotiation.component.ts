@@ -361,10 +361,7 @@ export class NegotiationComponent implements OnInit {
     let reqForApproval;
     const approvingUser = this.keyValue ? this.keyValue : this.approvedBy;
     // console.log('approvingUser', this.keyValue, this.approvedBy);
-    if(this.userDetails && this.userDetails.length  == 0 && type == 'approval') {
-      this.toasterService.showError('Invalid user', 'Approving Authority');
-      return;
-    }
+    
     this.onApproveOrSave = type;
     if(type == 'approval') {
       reqForApproval = true;
@@ -503,12 +500,18 @@ export class NegotiationComponent implements OnInit {
   }
   
   onApprovalClick(index?) {
+    
     console.log(index, 'index');
     this.currentIndex = index
     this.isDeferral = true;
     const approvedBy = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm.value.approvedBy;
     const deferralDate = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm.value.deferralDate;
     if(approvedBy && deferralDate && !this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm['controls']['deferralDate'].invalid) {
+      // for approve user check
+      if(this.userDetails && this.userDetails.length  == 0) {
+        this.toasterService.showError('Invalid user', 'Approving Authority');
+        return;
+      }     
       this.showModal = true;
       this.isDeferral = false;
     } else {

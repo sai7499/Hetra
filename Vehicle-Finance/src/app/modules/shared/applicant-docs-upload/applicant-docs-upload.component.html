@@ -115,7 +115,7 @@
                         <label for="documentnumber">Document Number</label>
                         <input formControlName="documentNumber"
                           [maxlength]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.maxLength || null"
-                          class="form-control"
+                          class="form-control input-upper"
                           [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null"
                           (keyup)="onDocumentNumberPress($event, i, subCat.code)" />
                         <div class="invalid-feedback"

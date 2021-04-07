@@ -333,3 +333,13 @@ label{
     margin-right: -8px !important;
     border-radius: 4px !important;
   }
+  .padding-rignt-0{
+    padding-right: 0px !important;
+  }
+  .mar-r10{
+    margin-right: -10px !important; 
+  }
+  .mar-l10{
+    margin-left: 10px !important;
+  }
+  

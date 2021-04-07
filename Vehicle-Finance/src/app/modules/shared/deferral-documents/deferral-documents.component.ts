@@ -284,18 +284,20 @@ export class DeferralDocumentsComponent implements OnInit {
   }
 
   individualImageUpload(request, index: number) {
+    
     this.uploadService
       .saveOrUpdateDocument([request], this.leadId)
       .subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
+        this.detectValues[index] = true;
+        this.isEnableSave = true;
         if (processVariables.error.code === '0') {
           const documentId = processVariables.documentIds[0];
           //this.documentDetails[index].documentId = documentId;
           const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
           formArray['controls'][index].get('documentId').setValue(documentId);
           this.toasterService.showSuccess('Document uploaded successfully', '');
-          this.detectValues[index] = true;
-          this.isEnableSave = true;
+         
         } else {
           this.toasterService.showError(processVariables.error.message, '');
         }
@@ -402,18 +404,20 @@ export class DeferralDocumentsComponent implements OnInit {
   onSave() {
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
     const formValues = formArray.getRawValue();
-    const isSave = formValues.find((data)=>{
-      return !((data.receivedBy && data.dmsDocumentId) || (!data.receivedBy && !data.dmsDocumentId));
+    const details = formValues.find((data)=>{
+      const receivedBy = this.branchUsers.find((branch) => {
+        if(data.receivedBy){
+          return data.receivedBy === branch;
+        }
+        
+      }) ? data.receivedBy : null;
+      return !((receivedBy && data.dmsDocumentId) || (!receivedBy && !data.dmsDocumentId));
     })
-    const isSaveFilter = formValues.filter((data)=>{
-      return !((data.receivedBy && data.dmsDocumentId) || (!data.receivedBy && !data.dmsDocumentId));
-    })
-    console.log('isSave', isSave)
+    //console.log('details', details)
     
     //this.isDirty = true;
     this.isRoleIdCheck = []
-    console.log('formValues', formValues);
-    this.checkRoleId(isSaveFilter);
+    this.checkRoleId(formValues);
 
 
     this.detectValues.forEach((data, index) => {
@@ -427,12 +431,6 @@ export class DeferralDocumentsComponent implements OnInit {
         }
       }
     })
-
-    console.log('isDirty', this.isDirty)
-
-
-    
-
     //const todayDate = new Date()
     formValues.forEach((data) => {
       data.deferredDate = this.utilityService.getDateFormat(data.deferredDate);
@@ -440,26 +438,25 @@ export class DeferralDocumentsComponent implements OnInit {
       data.isDeferred = "1"
     })
     console.log('formValues', formValues)
-    if(isSave){
-      return this.toasterService.showError(`Please fill all the details for ${isSave.documentTypeValue}`, '')
+    if(details && details.dmsDocumentId && details.receivedBy ){
+      return this.toasterService.showError('Invalid USER Please check', 'RECEIVED BY')
     }
-    
-    
+    if(details){
+      return this.toasterService.showError(`Please fill all the details for ${details.documentTypeValue}`, '')
+    }
 
-    // if(this.deferralForm.invalid){
-    //   this.toasterService.showError('Mandatory Fields Missing', '')
+    
+    
+    // console.log('this.isRoleIdCheck', this.isRoleIdCheck)
+    // const isCheckRoleId = this.isRoleIdCheck.every((data) => {
+    //   return data === true;
+    // })
+    // console.log('isCheckRoleId', isCheckRoleId)
+    // if (!isCheckRoleId) {
+    //   this.toasterService.showError('Invalid USER Please check', 'RECEIVED BY')
     //   return;
     // }
-    console.log('this.isRoleIdCheck', this.isRoleIdCheck)
-    const isCheckRoleId = this.isRoleIdCheck.every((data) => {
-      return data === true;
-    })
-    console.log('isCheckRoleId', isCheckRoleId)
-    if (!isCheckRoleId) {
-      this.toasterService.showError('Invalid USER Please check', 'RECEIVED BY')
-      return;
-    }
-    //return alert('Saved')
+    //return alert ('saved')
     this.saveDefDoc(formValues)
   }
 
@@ -490,13 +487,11 @@ export class DeferralDocumentsComponent implements OnInit {
     const formValues = formArray.getRawValue();
 
     const isAnyUnsaved = this.objectComparisonService.compare(this.apiValue, formValues)
-    console.log('isAnyUnsaved', this.objectComparisonService.compare(this.apiValue, formValues))
     if (!isAnyUnsaved) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
 
-    const todayDate = new Date()
     formValues.forEach((data) => {
       data.deferredDate = this.utilityService.getDateFormat(data.deferredDate);
       data.receivedOn = this.utilityService.convertDateTimeTOUTC(data.receivedOn, 'YYYY-MM-DD HH:mm');
@@ -540,10 +535,12 @@ export class DeferralDocumentsComponent implements OnInit {
 
     formValues.forEach((ele) => {
       this.isRoleIdCheck.push(this.branchUsers.some((branch) => {
-        return ele.receivedBy === branch;
+        if(ele.receivedBy){
+          return ele.receivedBy === branch;
+        }
+        
       }))
     })
-    console.log('this.isRoleIdCheck', this.isRoleIdCheck)
 
 
   }
@@ -551,7 +548,11 @@ export class DeferralDocumentsComponent implements OnInit {
 
   onRoleIdCleared(val, index) {
     this.roleIdList = []
-    this.detectValues[index] = false;
+    console.log('this.detectValues[index]', this.detectValues[index])
+    if(this.detectValues && !this.detectValues[index]){
+      this.detectValues[index] = false;
+    }
+    
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
 
     const formGroup = formArray.at(index)
@@ -559,11 +560,10 @@ export class DeferralDocumentsComponent implements OnInit {
     const formValues = formArray.getRawValue();
     this.isEnableSave = false;
     this.isEnableSave = formValues.some((ele) => {
-      console.log('ele', ele)
-      return ele.receivedBy && ele.dmsDocumentId;
+      return ele.receivedBy || ele.dmsDocumentId;
     })
 
-    console.log('this.detectValues', this.detectValues)
+    this.isDirty[index] = false;
   }
 
   onRoleIdSearch(val) {
@@ -575,13 +575,12 @@ export class DeferralDocumentsComponent implements OnInit {
           return el;
         }
       })
-      console.log('this.roleIdList', this.roleIdList)
+     
     }
 
   }
 
   selectRoleId(index) {
-    console.log('index', index)
     this.detectValues[index] = true;
     this.isEnableSave = true;
     if (!this.isRoleIdCheck[index]) {
@@ -589,8 +588,5 @@ export class DeferralDocumentsComponent implements OnInit {
     }
   }
 
-  detectChanges() {
-    console.log('detectChanges')
-  }
 
 }
