@@ -442,7 +442,7 @@ export class DeferralDocumentsComponent implements OnInit {
       return this.toasterService.showError('Invalid USER Please check', 'RECEIVED BY')
     }
     if(details){
-      return this.toasterService.showError(`Please fill all the details for ${details.documentTypeValue}`, '')
+      return this.toasterService.showError(`Please Upload document/select any Receiver name for ${details.documentTypeValue}`, '')
     }
 
     

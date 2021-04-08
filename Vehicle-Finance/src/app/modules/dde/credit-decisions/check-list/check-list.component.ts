@@ -376,7 +376,7 @@ export class CheckListComponent implements OnInit {
     if (this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
       console.log(this.checklistForm);
 
-      this.toasterService.showError('Select Mandatory Fields', 'Save Checklist ');
+      this.toasterService.showError('Select Mandatory Fields', '');
       return;
     }
     // tslint:disable-next-line: triple-equals
@@ -392,7 +392,7 @@ export class CheckListComponent implements OnInit {
       this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          this.toasterService.showSuccess('Record Saved Successfully', ' ');
+          this.toasterService.showSuccess('Record Submitted Successfully', ' ');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.ProcessVariables.error.message, '');

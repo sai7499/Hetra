@@ -87,7 +87,7 @@
 
                                         <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
                                             [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Select Month"
-                                            [activeView]="'decade'"
+                                            [activeView]="'month'"
                                             (valueChange)="findUniqueDate($event, i, 'pdcList', 'spdcList')">
                                         </kendo-datepicker>
                                         <!-- </div> -->
@@ -275,7 +275,7 @@
 
                                         <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
                                             [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Select Month"
-                                            [activeView]="'decade'"
+                                            [activeView]="'month'"
                                             (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList'); changeSpdcList(item, i, 'instrDate', 'spdcList')">
                                         </kendo-datepicker>
                                         <!-- </div> -->
@@ -450,7 +450,7 @@
 
                                     <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
                                         <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy HH:mm'"
-                                            [activeView]="'decade'" [disabled]="true" formControlName="receivedOn">
+                                            [activeView]="'month'" [disabled]="true" formControlName="receivedOn">
                                         </kendo-datepicker>
                                     </div>
 

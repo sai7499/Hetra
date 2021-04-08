@@ -1429,7 +1429,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         obj.controls[index].get('isShowStatus').setValue(true)
         obj.controls[index].get('isReqApprove').setValue(false)
 
-        this.toasterService.showSuccess('Requested Deferral Approval Sucessfully', '')
+        this.toasterService.showSuccess('Requested Deferral Approval Successfully', '')
       } else {
         obj.controls[index].get('isShowStatus').setValue(false)
         obj.controls[index].get('isReqApprove').setValue(true)
