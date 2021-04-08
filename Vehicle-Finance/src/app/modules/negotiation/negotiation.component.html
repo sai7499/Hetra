@@ -961,9 +961,12 @@
                                           <div class="col-sm-6 col-md-6 col-lg-6">
                                             <app-custom-input formControlName="collectedNoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
                                               [placeholder]="'Collected PDC Value'" [isRequired]="!showErrorCollected ? 'Collected PDC Value is Required' : ''" (input)="collectedChequeMaxMin('',i)"
-                                            [custom]="collectedPDCvalueCheck"
+                                            
                                             [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
                                             </app-custom-input>
+                                            <div class="invalid-feedback" *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].hasError('incorrect')">
+                                              value should not be greater than required pdc
+                                            </div>
                                           </div>
                                         </div>
                                         
@@ -974,10 +977,13 @@
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                               <app-custom-input formControlName="collectedNoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
                                                 [placeholder]="'Collected SPDC Value'" [isRequired]="!showErrorCollected ? 'Collected SPDC Value is Required' : ''" (input)="collectedChequeMaxMin('',i)"
-                                                [custom]="collectedSPDCvalueCheck"
+                                                
                                                 [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
-                                              </app-custom-input>                                              
-                                            </div>                               
+                                              </app-custom-input> 
+                                              <div class="invalid-feedback" *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].hasError('incorrect')">
+                                                value should not be greater than required spdc
+                                              </div>                                              
+                                            </div>     
                                           </div>
                                        
                                       </div>
@@ -1005,8 +1011,7 @@
                                           </div>                                
                                         </div>
                                         <div class="form-group">
-                                          <label class="control-label col-sm-6 col-md-6 col-lg-6" for="NoofSPDC">Approving Authority
-                                            <sub class="star_red_col">*</sub>
+                                          <label class="control-label col-sm-6 col-md-6 col-lg-6" for="NoofSPDC">Approving Authority&nbsp;<sub class="star_red_col">*</sub>
                                           </label>
                                           <div class="col-sm-6 col-md-6 col-lg-6">
                                             <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'Name'"

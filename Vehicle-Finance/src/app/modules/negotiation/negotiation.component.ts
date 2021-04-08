@@ -463,6 +463,7 @@ export class NegotiationComponent implements OnInit {
     });
     this.userDetails = [];
     this.keyValue = null;
+    this.approvedBy = null;
   }
   collectedChequeMaxMin(value, i) {
     let pdcvalue = Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value
@@ -489,6 +490,13 @@ export class NegotiationComponent implements OnInit {
     } else {
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setErrors(null);
     }
+
+    if(collectedpdcvalue > pdcvalue) {
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].setErrors({'incorrect': true})
+    } else {
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].setErrors(null);
+    }
+   
    
    if (requiredNoofCheques && (collectedNoofCheques || collectedNoofCheques == 0) && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
       this.isNeededApproval = true;
