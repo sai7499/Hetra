@@ -381,20 +381,20 @@ export class PdcDetailsComponent implements OnInit {
       return
     }
 
-    // this.pdcService.savePdcDetails(body).subscribe((res: any) => {
-    //   if (res.ProcessVariables.error.code == '0') {
-    //     this.toasterService.showSuccess('Record Saved Successfully', '');
-    //     if (dataString == 'save') {
-    //       this.getPdcDetails();
-    //     } else if (dataString == 'cpc') {
-    //       this.submitTocpc();
-    //     } else if (dataString === 'isDeferral') {
-    //       this.onSubmit()
-    //     }
-    //   } else {
-    //     this.toasterService.showError(res.ProcessVariables.error.message, '');
-    //   }
-    // });
+    this.pdcService.savePdcDetails(body).subscribe((res: any) => {
+      if (res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Record Saved Successfully', '');
+        if (dataString == 'save') {
+          this.getPdcDetails();
+        } else if (dataString == 'cpc') {
+          this.submitTocpc();
+        } else if (dataString === 'isDeferral') {
+          this.onSubmit()
+        }
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
+      }
+    });
   }
 
   onBack() {
