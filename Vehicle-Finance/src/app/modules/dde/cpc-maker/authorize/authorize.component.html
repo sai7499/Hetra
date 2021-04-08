@@ -1,5 +1,5 @@
 <div class="content">
-    <h3>Authorize Customer KYC Detail Changes</h3>
+    <h3 *ngIf="!isDDE">Authorize Customer KYC Detail Changes</h3>
 
     <div class="authorize-demo" id="authorize-demo">
 
@@ -338,8 +338,8 @@
                                                     </div>
 
                                                     <div class="form-group col-sm-6 col-md-4 col-lg-3"
-                                                        id="third_doc_{{i}}">
-                                                        <label for="third_doc_" *ngIf="!isDDE">View Document
+                                                        id="third_doc_{{i}}" *ngIf="!isDDE">
+                                                        <label for="third_doc_">View Document
                                                         </label>
 
                                                         <ng-container

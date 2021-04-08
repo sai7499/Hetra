@@ -384,7 +384,7 @@ export class LoanDetailsComponent implements OnInit {
       insuranceValidity: new FormControl(''),
       vehiclePhsicallyVerified: new FormControl(''),
       conditionOfVehicle: new FormControl(''),
-      vehicleRoute: new FormControl(''),
+      vehicleRoute: new FormControl('', Validators.required),
       noOfTrips: new FormControl(''),
       amtPerTrip: new FormControl(''),
       selfDrivenOrDriver: new FormControl(''),
