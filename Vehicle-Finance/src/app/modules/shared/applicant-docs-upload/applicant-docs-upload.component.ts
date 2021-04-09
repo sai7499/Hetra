@@ -265,7 +265,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   getCategoriesDetails(categoryCode: any[]) {
+
     const categories = this.lovService.getDocumentCategories();
+    console.log(categories, 'categories')
     // this.categories = categories.filter((category) => {
     //   return category.code === 50 || category.code === 70;
     // });
@@ -283,8 +285,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
     const subCategories = this.categories.map((category) => {
       category.subcategories.forEach((sub: any) => {
-        sub.approverRoleName = category['approverRoleName']
-        sub.approverRoleID = category['approverRoleID']
 
         this.codeRoleArray[sub['code']] = [{
           key: sub['approverRoleID'],
@@ -295,9 +295,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return category.subcategories;
     });
 
-    console.log(subCategories, 'this.categories', this.categories);
-
-
     let subCategoryList: any = [];
     for (const subCategory of subCategories) {
       subCategoryList = [...subCategoryList, ...subCategory];
@@ -306,7 +303,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
 
     if (this.applicantId) {
-      console.log(this.subCategories, 'this.categories', this.codeRoleArray);
       this.constructOnlyFormArray();
       this.setDocumentDetails();
       return;
@@ -547,9 +543,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   removeDocumentFormControls(formArrayName: string, index: number) {
     const formArray = this.uploadForm.get(formArrayName) as FormArray;
-    // if (formArray.length === 1) {
-    //   return;
-    // }
+    if (formArray.length === 1) {
+      this.toasterService.showInfo('Should Be a one row mandatory', '')
+      return;
+    }
 
     const formControl = formArray.at(index).get('documentId');
     if (formControl.value === 0) {
@@ -833,6 +830,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     } else {
       id = this.leadId;
     }
+
+    console.log(id, 'Id leadId',  this.apiId, this.associatedWith)
 
     this.selectedDocDetails = {
       formArrayIndex: index,
