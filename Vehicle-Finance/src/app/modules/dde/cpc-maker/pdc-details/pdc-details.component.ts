@@ -122,7 +122,7 @@ export class PdcDetailsComponent implements OnInit {
     });
 
     if (this.isDeferral) {
-      this.pdcForm.addControl('podNo', this.fb.control('', Validators.required));
+      this.pdcForm.addControl('podNo', this.fb.control(null, Validators.required));
       this.pdcForm.addControl('receivedBy', this.fb.control('', Validators.compose([Validators.required, Validators.minLength(3)])));
       this.pdcForm.addControl('receivedOn', this.fb.control(new Date()))
       if (this.isCpcCheque) {
@@ -367,7 +367,8 @@ export class PdcDetailsComponent implements OnInit {
       }
     }
 
-    console.log()
+    console.log(this.pdcForm, 'pdcForm')
+
 
     if ((this.pdcForm.invalid || this.userDefineForm.udfData.invalid) && this.isValiduserName) {
       this.isDirty = true;

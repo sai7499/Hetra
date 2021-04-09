@@ -197,6 +197,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.vehicleRegPattern = this.validateCustomPattern()
     this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt;
     this.getProformaDateValidation();
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType) {
+      this.onFormDisable();
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.onFormDisable()
+    }
   }
 
   onFormDisable() {
@@ -1764,14 +1772,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       this.isShowParentLoan = false;
       this.isVehicleRegNoChange = false;
-      const operationType = this.toggleDdeService.getOperationType();
-      if (operationType) {
-        this.onFormDisable();
-      }
-  
-      if (this.loanViewService.checkIsLoan360()) {
-        this.onFormDisable()
-      }
+     
     } else {
       this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
     }

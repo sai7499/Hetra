@@ -86,6 +86,7 @@
                   </td> -->
                   <td>
                     <app-custom-input formControlName="currentPos" [className]="'form-control mandatory'"
+                     (change)="loanAmountChange($event.target.value, i)"
                       [placeholder]="'Current Pos'" [custom]="initalZeroCheck" [maxLength]="labels?.validationData.amountValue.maxLength"
                       [isRequired]="exposureArray.controls[i].get('loanType').value !== '1LONTYPEXP' ? 'Current Pos mandatory' : ''" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
