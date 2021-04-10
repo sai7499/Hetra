@@ -110,36 +110,56 @@
                 </td>
               </tr>
             </thead>
-            <tbody formArrayName="marketFinRefData">
+            <tbody formArrayName="marketFinRefData" >
               <tr *ngFor="
                 let item of referenceCheckForm.get('marketFinRefData')[
                   'controls'
                 ];
                 let i = index
-              " [formGroupName]="i">
+              " [formGroupName]="i" (keyup)="listenerArray(i, $event)">
                 <td>{{ i + 1 }}</td>
                 <td style="min-width: 59px">
                   <app-vf-custom-select [values]="(LOV?.LOVS)['references']" formControlName="typeReference"
-                    [isRequired]="'Please select alteast one '">
+                 (change)="listenerArray(i, $event)" >
                   </app-vf-custom-select>
+                  <div class="invalid-feedback" 
+                  *ngIf="referenceCheckForm.get('marketFinRefData')['controls'][i].get('typeReference').invalid && 
+                  isDirtyArray[i]">
+                     Please Select One
+                  </div>
                 </td>
                 <td>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="companyName"
                     [maxLength]="labels?.validationData?.companyName?.maxLength"
-                    [type]="labels?.validationData?.companyName?.type" [isRequired]="'company name is required'"
-                    [isDirty]="isDirty" [placeholder]="'company name'"></app-custom-input>
+                    [type]="labels?.validationData?.companyName?.type"  [placeholder]="'company name'"></app-custom-input>
+
+                    <div class="invalid-feedback" 
+                  *ngIf="referenceCheckForm.get('marketFinRefData')['controls'][i].get('companyName').invalid && 
+                  isDirtyArray[i]">
+                     Company name is required
+                  </div>
                 </td>
                 <td>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="officerName"
                     [maxLength]="labels?.validationData?.officerName?.maxLength"
-                    [type]="labels?.validationData?.officerName?.type" [isRequired]="'officer name is required'"
-                    [isDirty]="isDirty" [placeholder]="'officer name'"></app-custom-input>
+                    [type]="labels?.validationData?.officerName?.type"  [placeholder]="'officer name'"></app-custom-input>
+
+                    <div class="invalid-feedback" 
+                  *ngIf="referenceCheckForm.get('marketFinRefData')['controls'][i].get('officerName').invalid && 
+                  isDirtyArray[i]">
+                     Officer name is required
+                  </div>
                 </td>
                 <td>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="designation"
                     [maxLength]="labels?.validationData?.companyName?.maxLength"
-                    [type]="labels?.validationData?.companyName?.type" [isRequired]="'designation is required'"
-                    [isDirty]="isDirty" [placeholder]="'designation'"></app-custom-input>
+                    [type]="labels?.validationData?.companyName?.type" [placeholder]="'designation'"></app-custom-input>
+
+                    <div class="invalid-feedback" 
+                  *ngIf="referenceCheckForm.get('marketFinRefData')['controls'][i].get('designation').invalid && 
+                  isDirtyArray[i]">
+                  Designation is required
+                  </div>
                 </td>
                 <td>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="teleNo" [patternCheck]="
@@ -149,15 +169,25 @@
                   " [minLength]="
                     labels?.validationData?.fiCumPDLandlineNumber?.minLength
                   " [type]="labels?.validationData?.fiCumPDLandlineNumber?.type"
-                    [isRequired]="'telephone number is required'" [isDirty]="isDirty"
                     [placeholder]="'telephone number'">
                   </app-custom-input>
+
+                  <div class="invalid-feedback" 
+                  *ngIf="referenceCheckForm.get('marketFinRefData')['controls'][i].get('teleNo').invalid && 
+                  isDirtyArray[i]">
+                  Telephone number is required
+                  </div>
                 </td>
                 <td>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="comments"
                     [maxLength]="labels?.validationData?.comments?.maxLength"
-                    [type]="labels?.validationData?.comments?.type" [isRequired]="'comments are required'"
-                    [isDirty]="isDirty" [placeholder]="'comments'"></app-custom-input>
+                    [type]="labels?.validationData?.comments?.type"  [placeholder]="'comments'"></app-custom-input>
+
+                    <div class="invalid-feedback" 
+                  *ngIf="referenceCheckForm.get('marketFinRefData')['controls'][i].get('comments').invalid && 
+                  isDirtyArray[i]">
+                  Comments are required
+                  </div>
                 </td>
                 <td>
                   <button class="fa fa-plus mar-1" aria-hidden="true" id="addmorePOIbutton" value="Add"

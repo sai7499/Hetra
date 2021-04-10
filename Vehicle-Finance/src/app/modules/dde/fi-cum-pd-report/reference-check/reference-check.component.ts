@@ -129,6 +129,8 @@ export class ReferenceCheckComponent implements OnInit {
   delModalDetails : any;
   delModalButtons: any;
   myDeleteModel : boolean
+  isDirtyArray: any =[];
+  isFindIndex: any = [];
 
   constructor(
     private labelsData: LabelsService, // service to access labels
@@ -379,6 +381,56 @@ export class ReferenceCheckComponent implements OnInit {
     }
   }
 
+  listenerArray(index, event){
+    //console.log(index,'event', event.target.value)
+    const value = event.target.value;
+    const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
+    const formGroup = control.at(index) 
+  const typeReference = formGroup.get('typeReference').value;
+  const companyName = formGroup.get('companyName').value;
+  const officerName = formGroup.get('officerName').value;
+  const designation = formGroup.get('designation').value;
+  const teleNo = formGroup.get('teleNo').value;
+  const comments = formGroup.get('comments').value;
+    if(value){
+      formGroup.get('typeReference').setValidators(Validators.required);
+      formGroup.get('typeReference').updateValueAndValidity();
+      formGroup.get('companyName').setValidators(Validators.required);
+      formGroup.get('companyName').updateValueAndValidity();
+      formGroup.get('officerName').setValidators(Validators.required);
+      formGroup.get('officerName').updateValueAndValidity();
+      formGroup.get('designation').setValidators(Validators.required);
+      formGroup.get('designation').updateValueAndValidity();
+      formGroup.get('teleNo').setValidators(Validators.required);
+      formGroup.get('teleNo').updateValueAndValidity();
+      formGroup.get('comments').setValidators(Validators.required);
+      formGroup.get('comments').updateValueAndValidity();
+      this.isFindIndex[index] = true;
+      //console.log('this.isFindIndex[index]',this.isFindIndex[index])
+      
+    }else if(!typeReference && !companyName && !officerName &&
+      !designation && !teleNo && !comments){
+      formGroup.get('typeReference').clearValidators();
+      formGroup.get('typeReference').updateValueAndValidity();
+      formGroup.get('companyName').clearValidators();
+      formGroup.get('companyName').updateValueAndValidity();
+      formGroup.get('officerName').clearValidators();
+      formGroup.get('officerName').updateValueAndValidity();
+      formGroup.get('designation').clearValidators();
+      formGroup.get('designation').updateValueAndValidity();
+      formGroup.get('teleNo').clearValidators();
+      formGroup.get('teleNo').updateValueAndValidity();
+      formGroup.get('comments').clearValidators();
+      formGroup.get('comments').updateValueAndValidity();
+      this.isFindIndex[index] = false;
+      setTimeout(()=>{
+        this.isDirtyArray[index]= false;
+      })
+      
+      
+    }
+  }
+
   public populateRowData(rowData) {
     return this.fb.group({
       typeReference: rowData.typeReference ? rowData.typeReference : null,
@@ -594,6 +646,16 @@ export class ReferenceCheckComponent implements OnInit {
         referenceArray[i]['comments'] = referenceArray[i]['comments'];
       }
       this.referenceCheckForm.value.marketFinRefData = referenceArray;
+      this.isFindIndex.forEach((data, index)=>{
+        if(data){
+          this.isDirtyArray[index]= true;
+        }else if(!data){
+          this.isDirtyArray[index]= false;
+        }
+      })
+      const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
+      //console.log('referenceArray', control)
+      //return;
 
       let i = 0;
       let j = 0;
@@ -731,15 +793,17 @@ export class ReferenceCheckComponent implements OnInit {
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     this.showCustomModal = false;
-    this.isDirty = true;
+    // this.isDirty = true;
     if (this.referenceCheckForm.invalid || isUDFInvalid) {
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
     if (!isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+
+    //return alert ('submit')
     
 
     const data = {
