@@ -33,9 +33,10 @@
                       <div [formGroupName]="i">
                         <h4>{{ subCat.displayName }}</h4>
                         <div class="photo">
+                          <!-- ../../../../assets/images/user.jpg -->
                           <img [src]="
                         DEFAULT_PROFILE_IMAGE ||
-                        '../../../../assets/images/user.jpg'
+                        'assets/images/user.jpg'
                       " alt="[Image: Photo]" width="100" (click)="
                           downloadDocs(
                             FORM_ARRAY_NAME + '_' + subCat.code,
@@ -69,7 +70,7 @@
                         <div class="photo">
                           <img [src]="
                         DEFAULT_SIGNATURE_IMAGE ||
-                        '../../../../assets/images/user.jpg'
+                      'assets/images/user.jpg'
                       " alt="[Image: Photo]" width="100" (click)="
                           downloadDocs(
                             FORM_ARRAY_NAME + '_' + subCat.code,
