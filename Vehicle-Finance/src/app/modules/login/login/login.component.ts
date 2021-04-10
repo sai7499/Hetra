@@ -17,11 +17,11 @@ import * as moment from 'moment';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 import { GpsService } from 'src/app/services/gps.service';
 import { environment } from 'src/environments/environment';
-import { DashboardService } from '@services/dashboard/dashboard.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from '@services/utility.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Camera } from '@ionic-native/camera/ngx';
+import { ToasterService } from '@services/toaster.service';
 
 declare var identi5: any;
 declare var cordova: any;
@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
     private gmapsApi: GoogleMapsAPIWrapper,
     private deviceService: DeviceDetectorService,
     private camera: Camera,
-    private dashboardService: DashboardService,
+    private toasterService: ToasterService,
     private ngxUiLoaderService: NgxUiLoaderService,
     private utilityService: UtilityService,
     private draggableContainerService: DraggableContainerService
@@ -92,8 +92,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.draggableContainerService
-        .clearAll();
-    console.log("base url",window.location.origin);
+      .clearAll();
+    console.log("base url", window.location.origin);
     this.appVersion = environment.version;
     this.buildDate = environment.buildDate;
     this.labelsData.getLabelsData().subscribe(
@@ -150,14 +150,14 @@ export class LoginComponent implements OnInit {
     let loginDataEmail;
     let loginDataADAuth;
     // this.loginData.email =   this.loginData.email + window["env"]["userDEVConfig"]  ;
-    if(window["env"]["hostEnvironment"] === "DEV") {
-     loginDataEmail =  this.loginData.email + window["env"]["userDEVConfig"];
-     loginDataADAuth = window["env"]["useDEVADAuth"];
+    if (window["env"]["hostEnvironment"] === "DEV") {
+      loginDataEmail = this.loginData.email + window["env"]["userDEVConfig"];
+      loginDataADAuth = window["env"]["useDEVADAuth"];
     } else if (window["env"]["hostEnvironment"] === "UAT") {
-      loginDataEmail =  this.loginData.email + window["env"]["userUATConfig"];
+      loginDataEmail = this.loginData.email + window["env"]["userUATConfig"];
       loginDataADAuth = window["env"]["useUATADAuth"];
     } else if (window["env"]["hostEnvironment"] === "PRD") {
-      loginDataEmail =  this.loginData.email + window["env"]["userPRDConfig"];
+      loginDataEmail = this.loginData.email + window["env"]["userPRDConfig"];
       loginDataADAuth = window["env"]["usePRDADAuth"];
     }
     this.loginData.email = loginDataEmail;
@@ -185,7 +185,7 @@ export class LoginComponent implements OnInit {
 
           this.loginService.getUserDetails().subscribe((res: any) => {
             const response = res;
-            if (response.Error === '0') {
+            if (response.Error === '0' && response.ProcessVariables.error.code === '0') {
               const roles = response.ProcessVariables.roles;
               const fullData = response.ProcessVariables;
               const userDetails = response.ProcessVariables.userDetails;
@@ -205,6 +205,8 @@ export class LoginComponent implements OnInit {
                 fullData
               );
               this.router.navigateByUrl('/activity-search');
+            } else {
+              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get User Details')
             }
           });
         }
