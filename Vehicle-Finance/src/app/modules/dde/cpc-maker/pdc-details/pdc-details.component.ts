@@ -69,12 +69,12 @@ export class PdcDetailsComponent implements OnInit {
   searchUserNameList: any = [];
   isValiduserName: boolean;
   documentId: number;
-  myModal : boolean;
+  myModal: boolean;
   subModalDetails: any;
   subModalButtons: any;
   sendCreModalDetails: any;
   sendCreModalButtons: any;
-  isSendCredit : boolean;
+  isSendCredit: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -154,13 +154,13 @@ export class PdcDetailsComponent implements OnInit {
       this.labels = res;
     });
 
-    this.labelsService.getModalDetails().subscribe((data)=>{
+    this.labelsService.getModalDetails().subscribe((data) => {
       const details = data.pdcDetials;
       this.subModalDetails = details.submit.modalDetails,
-      this.subModalButtons = details.submit.modalButtons, 
+        this.subModalButtons = details.submit.modalButtons,
 
-      this.sendCreModalDetails = details.sendToCredit.modalDetails,
-      this.sendCreModalButtons = details.sendToCredit.modalButtons
+        this.sendCreModalDetails = details.sendToCredit.modalDetails,
+        this.sendCreModalButtons = details.sendToCredit.modalButtons
 
     })
 
@@ -179,6 +179,7 @@ export class PdcDetailsComponent implements OnInit {
       instrBranchAccountNumber: [null, Validators.required],
       instrAmount: [null, Validators.required],
       isEnableBranch: false,
+      loanBookedDate: [this.toDayDate],
       isDeferral: this.isDeferral
     });
   }
@@ -193,6 +194,7 @@ export class PdcDetailsComponent implements OnInit {
       instrBranchAccountNumber: [null, Validators.required],
       instrAmount: [null, Validators.required],
       isEnableBranch: false,
+      loanBookedDate: [this.toDayDate],
       isDeferral: this.isDeferral
     });
   }
@@ -377,7 +379,7 @@ export class PdcDetailsComponent implements OnInit {
     }
 
     if (this.isCpcCheque && this.pdcForm.get('isChequeReceived').value === false) {
-      this.pdcForm.get('isChequeReceived').setErrors({incorrect: true})
+      this.pdcForm.get('isChequeReceived').setErrors({ incorrect: true })
       return
     }
 
@@ -440,7 +442,7 @@ export class PdcDetailsComponent implements OnInit {
         }
         if (data.pdcList != null) {
           for (let i = 0; i < pdcCount; i++) {
-            if (data.pdcList[i]) {
+            if (data.pdcList[i] && PdcControl.at(i)) {
               PdcControl.at(i).patchValue({
                 pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
                 instrType: data.pdcList[i].instrType
@@ -467,6 +469,9 @@ export class PdcDetailsComponent implements OnInit {
                 instrAmount: data.pdcList[i].instrAmount
                   ? data.pdcList[i].instrAmount
                   : '',
+                loanBookedDate: data.pdcList[i].loanBookedDate
+                  ? this.utilityService.getDateFromString(data.pdcList[i].loanBookedDate)
+                  : this.toDayDate,
                 isDeferral: this.isDeferral
               });
             }
@@ -477,32 +482,37 @@ export class PdcDetailsComponent implements OnInit {
         this.showPdcButton = true;
         for (let i = 0; i < data.pdcList.length; i++) {
           this.addPdcUnit();
-          PdcControl.at(i).patchValue({
-            pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
-            instrType: data.pdcList[i].instrType
-              ? data.pdcList[i].instrType
-              : '',
-            emiAmount: data.pdcList[i].emiAmount
-              ? data.pdcList[i].emiAmount
-              : this.negotiatedEmi,
-            instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
-            instrDate: data.pdcList[i].instrDate
-              ? this.utilityService.getDateFromString(data.pdcList[i].instrDate)
-              : '',
-            instrBankName: data.pdcList[i].instrBankName
-              ? data.pdcList[i].instrBankName
-              : '',
-            instrBranchName: data.pdcList[i].instrBranchName
-              ? data.pdcList[i].instrBranchName
-              : '',
-            instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
-              ? data.pdcList[i].instrBranchAccountNumber
-              : '',
-            instrAmount: data.pdcList[i].instrAmount
-              ? data.pdcList[i].instrAmount
-              : '',
-            isDeferral: this.isDeferral
-          });
+          if (data.pdcList[i] && PdcControl.at(i)) {
+            PdcControl.at(i).patchValue({
+              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
+              instrType: data.pdcList[i].instrType
+                ? data.pdcList[i].instrType
+                : '',
+              emiAmount: data.pdcList[i].emiAmount
+                ? data.pdcList[i].emiAmount
+                : this.negotiatedEmi,
+              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
+              instrDate: data.pdcList[i].instrDate
+                ? this.utilityService.getDateFromString(data.pdcList[i].instrDate)
+                : '',
+              instrBankName: data.pdcList[i].instrBankName
+                ? data.pdcList[i].instrBankName
+                : '',
+              instrBranchName: data.pdcList[i].instrBranchName
+                ? data.pdcList[i].instrBranchName
+                : '',
+              instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
+                ? data.pdcList[i].instrBranchAccountNumber
+                : '',
+              instrAmount: data.pdcList[i].instrAmount
+                ? data.pdcList[i].instrAmount
+                : '',
+              loanBookedDate: data.pdcList[i].loanBookedDate
+                ? this.utilityService.getDateFromString(data.pdcList[i].loanBookedDate)
+                : this.toDayDate,
+              isDeferral: this.isDeferral
+            });
+          }
         }
       } else {
         //this.addPdcUnit();
@@ -547,6 +557,9 @@ export class PdcDetailsComponent implements OnInit {
                 instrAmount: data.spdcList[j].instrAmount
                   ? data.spdcList[j].instrAmount
                   : '',
+                loanBookedDate: data.spdcList[j].loanBookedDate
+                  ? this.utilityService.getDateFromString(data.spdcList[j].loanBookedDate)
+                  : this.toDayDate,
                 isDeferral: this.isDeferral
               });
             }
@@ -558,34 +571,41 @@ export class PdcDetailsComponent implements OnInit {
         // tslint:disable-next-line: prefer-for-of
         for (let j = 0; j < data.spdcList.length; j++) {
           this.addSPdcUnit();
-          spdcControl.at(j).patchValue({
-            pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
-            instrType: data.spdcList[j].instrType
-              ? data.spdcList[j].instrType
-              : '',
-            emiAmount: data.spdcList[j].emiAmount
-              ? data.spdcList[j].emiAmount
-              : this.negotiatedEmi,
-            instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : '',
-            instrDate: data.spdcList[j].instrDate
-              ? this.utilityService.getDateFromString(
-                data.spdcList[j].instrDate
-              )
-              : '',
-            instrBankName: data.spdcList[j].instrBankName
-              ? data.spdcList[j].instrBankName
-              : '',
-            instrBranchName: data.spdcList[j].instrBranchName
-              ? data.spdcList[j].instrBranchName
-              : '',
-            instrBranchAccountNumber: data.spdcList[j].instrBranchAccountNumber
-              ? data.spdcList[j].instrBranchAccountNumber
-              : '',
-            instrAmount: data.spdcList[j].instrAmount
-              ? data.spdcList[j].instrAmount
-              : '',
-            isDeferral: this.isDeferral
-          });
+
+          if (data.spdcList[j] && spdcControl.at(j)) {
+            spdcControl.at(j).patchValue({
+              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
+              instrType: data.spdcList[j].instrType
+                ? data.spdcList[j].instrType
+                : '',
+              emiAmount: data.spdcList[j].emiAmount
+                ? data.spdcList[j].emiAmount
+                : this.negotiatedEmi,
+              instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : '',
+              instrDate: data.spdcList[j].instrDate
+                ? this.utilityService.getDateFromString(
+                  data.spdcList[j].instrDate
+                )
+                : '',
+              instrBankName: data.spdcList[j].instrBankName
+                ? data.spdcList[j].instrBankName
+                : '',
+              instrBranchName: data.spdcList[j].instrBranchName
+                ? data.spdcList[j].instrBranchName
+                : '',
+              instrBranchAccountNumber: data.spdcList[j].instrBranchAccountNumber
+                ? data.spdcList[j].instrBranchAccountNumber
+                : '',
+              instrAmount: data.spdcList[j].instrAmount
+                ? data.spdcList[j].instrAmount
+                : '',
+              loanBookedDate: data.spdcList[j].loanBookedDate
+                ? this.utilityService.getDateFromString(data.spdcList[j].loanBookedDate)
+                : this.toDayDate,
+              isDeferral: this.isDeferral
+            });
+          }
+
         }
       } else {
         this.showspdcButton = true;
@@ -1050,15 +1070,15 @@ export class PdcDetailsComponent implements OnInit {
         "userId": localStorage.getItem('userId'),
         "taskId": this.taskId,
         "taskName": "PDC_SPDC Deferral",
-        "isPdc":true
+        "isPdc": true
       }
 
       this.pdcService.acknowledgeDeferral(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.router.navigateByUrl(`/pages/dashboard`);
-          } else {
-            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Acknowledge PDC_SPDC Deferral')
-          }
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Acknowledge PDC_SPDC Deferral')
+        }
       })
 
     } else {
@@ -1071,9 +1091,9 @@ export class PdcDetailsComponent implements OnInit {
       }
       this.pdcService.submitDeferral(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.router.navigateByUrl(`/pages/dashboard`);
+          this.router.navigateByUrl(`/pages/dashboard`);
         } else {
-          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Submit PDC_SPDC Deferral')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Submit PDC_SPDC Deferral')
         }
       })
     }
