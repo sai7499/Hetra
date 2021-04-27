@@ -86,11 +86,12 @@
                                         <!-- <div class="input-group input-medium"> -->
 
                                         <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
-                                            [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Select Month"
-                                            [activeView]="'month'"
+                                            [format]="'dd/MM/yyyy'"
+                                            [min]="f.pdcList.controls[i].controls.loanBookedDate.value"
+                                            placeholder="Select Month" [activeView]="'month'"
                                             (valueChange)="findUniqueDate($event, i, 'pdcList', 'spdcList')">
                                         </kendo-datepicker>
-                                        <!-- </div> -->
+                                        <!-- </div> [min]="toDayDate" -->
 
                                         <div class="invalid-feedback">
                                             <span *ngIf="isDirty && !f.pdcList.controls[i].controls.instrDate.value">
@@ -272,10 +273,10 @@
 
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
                                         <!-- <div class="input-group input-medium"> -->
-
                                         <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
-                                            [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Select Month"
-                                            [activeView]="'month'"
+                                            [format]="'dd/MM/yyyy'"
+                                            [min]="f.spdcList.controls[i].controls.loanBookedDate.value"
+                                            placeholder="Select Month" [activeView]="'month'"
                                             (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList'); changeSpdcList(item, i, 'instrDate', 'spdcList')">
                                         </kendo-datepicker>
                                         <!-- </div> -->
@@ -455,14 +456,20 @@
                                     </div>
 
                                     <label class="form-group col-sm-1 col-lg-1 col-md-1 col-xs-12" for="cod">
-                                        <i aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer"
-                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
+                                        <a data-tooltip="Document Upload">
+                                            <i aria-hidden="true"
+                                                class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                                                id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
+                                        </a>
                                     </label>
 
                                     <label class="form-group col-sm-1 col-lg-1 col-md-1 col-xs-12" for="cod"
                                         *ngIf="documentId">
-                                        <i aria-hidden="true" class="fa fa-eye fa-3 custom-file-label cursor-pointer"
-                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
+                                        <a data-tooltip="Document View">
+                                            <i aria-hidden="true"
+                                                class="fa fa-eye fa-3 custom-file-label cursor-pointer"
+                                                id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
+                                        </a>
                                     </label>
 
 

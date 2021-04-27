@@ -244,25 +244,35 @@ export class CreditConditionsComponent implements OnInit {
       this.isDeclineEnable = res['ProcessVariables']['isDeclineEnable'];
       this.isRejectEnable = res['ProcessVariables']['isRejectEnable'];
       this.roleList = res['ProcessVariables']['roleList'];
-      if (res['ProcessVariables'].error['code'] == "0" && res['ProcessVariables'].creditConditions != null) {
-        const creditConditions: Array<dataObject> = res['ProcessVariables'].creditConditions;
-        this.creditConditions = res['ProcessVariables'].creditConditions;
+      
+      if (res['ProcessVariables'].error['code'] == "0" && res['Error'] == "0") {
+
+        if (res['ProcessVariables'].creditConditions != null) {
+
+          const creditConditions: Array<dataObject> = res['ProcessVariables'].creditConditions;
+
+          this.creditConditions = res['ProcessVariables'].creditConditions;
+
+          for (let i = 0; i < creditConditions.length; i++) {
+            //    this.formArr.push(this.getcreditConditionControls())
+            creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : null;
+            this.formArr.push(this.getcreditConditionControls(creditConditions[i]))
+  
+            // if (!creditConditions[i]['salesResponseDoc']) {
+            //   creditConditions[i]['salesResponseDoc'] = '';
+  
+            // }
+            // creditConditions[i]['creditAction']  = creditConditions[i]['creditAction'] ? creditConditions[i]['creditAction'] : '2';
+          }
+          //  this.formArr.setValue(creditConditions);
+
+        } else if (res['ProcessVariables'].creditConditions === null && this.userType !== 2) {
+          this.addOtherUnit()
+        }
 
         this.udfDetails = res['ProcessVariables'].udfDetails ? res['ProcessVariables'].udfDetails : [];
-
         this.disableControl = false;
-        for (let i = 0; i < creditConditions.length; i++) {
-          //    this.formArr.push(this.getcreditConditionControls())
-          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : null;
-          this.formArr.push(this.getcreditConditionControls(creditConditions[i]))
 
-          // if (!creditConditions[i]['salesResponseDoc']) {
-          //   creditConditions[i]['salesResponseDoc'] = '';
-
-          // }
-          // creditConditions[i]['creditAction']  = creditConditions[i]['creditAction'] ? creditConditions[i]['creditAction'] : '2';
-        }
-        //  this.formArr.setValue(creditConditions);
       } else if (res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
         this.disableControl = true;

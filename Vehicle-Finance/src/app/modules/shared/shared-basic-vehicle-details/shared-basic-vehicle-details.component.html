@@ -2923,7 +2923,7 @@
                                 <label for="idv">{{label?.premiumAmount}}<sub class="star_red_col">*</sub></label>
                                 <app-custom-input [id]="'idv'" formControlName="premiumAmount"
                                     [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDirty]="isDirty"
                                     [isRequired]="'Premium Amount Required'" [placeholder]="'Premium Amount'">
                                 </app-custom-input>
                             </div>
@@ -2973,7 +2973,8 @@
                                 <label for="idv">{{label.idv}}<sub class="star_red_col">*</sub></label>
                                 <app-custom-input [id]="'idv'" [type]="label.validationData?.amountValue.type"
                                     [className]="'form-control'" formControlName="idv" [isRequired]="'IDV Required'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'IDV'">
+                                    [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'IDV'"
+                                    [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
 
