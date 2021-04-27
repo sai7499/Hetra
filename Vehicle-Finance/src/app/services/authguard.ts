@@ -14,6 +14,7 @@ import { LoginStoreService } from './login-store.service';
 import { UtilityService } from './utility.service';
 import { CommonDataService } from './common-data.service';
 import { DashboardService } from './dashboard/dashboard.service';
+import { ToasterService } from './toaster.service';
 
 @Injectable()
 export class Authguard implements CanActivate {
@@ -23,7 +24,8 @@ export class Authguard implements CanActivate {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
-    private cds: CommonDataService
+    private cds: CommonDataService,
+    private toasterService: ToasterService,
   ) {
     this.cds.cdsStatus$.subscribe((value) => (this.cdsStatus = value));
   }
@@ -38,7 +40,7 @@ export class Authguard implements CanActivate {
           let data = { userId: storage.getUserId() };
           this.loginService.getUserDetails(data).subscribe((res: any) => {
             const response = res;
-            if (response.Error === '0') {
+            if (response.Error === '0'  && response.ProcessVariables.error.code === '0') {
               const roles = response.ProcessVariables.roles;
               const userDetails = response.ProcessVariables.userDetails;
               const businessDivisionList =
@@ -56,6 +58,8 @@ export class Authguard implements CanActivate {
                 fullData
               );
               observer.next(true);
+            }else{
+              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get User Details')
             }
           });
         } else {
