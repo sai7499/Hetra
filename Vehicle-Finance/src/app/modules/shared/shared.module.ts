@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { CustomSelectComponent } from './custom-select/custom-select.component';
-import { TextOnlyModalComponent } from './Modals/text-only-modal/text-only-modal.component';
 import { LeadSectionHeaderComponent } from './lead-section-header/lead-section-header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { } from './applicant-list/applicant-list.component';
@@ -54,12 +53,14 @@ import { DeferralDocumentsComponent } from './deferral-documents/deferral-docume
 import { CustomTextareaComponent } from './custom-textarea/custom-textarea.component';
 import { AuthorizeKycComponent } from './authorize-kyc/authorize-kyc.component';
 import { AuthorizeComponent } from '@modules/dde/cpc-maker/authorize/authorize.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 setTheme('bs4');
 
 @NgModule({
   declarations: [
     CustomSelectComponent,
-    TextOnlyModalComponent,
     LeadSectionHeaderComponent,
     ProfileComponent,
     IdentityDetailsComponent,
@@ -92,6 +93,9 @@ setTheme('bs4');
     DeferralDocumentsComponent,
     AuthorizeKycComponent,
     AuthorizeComponent,
+    PieChartComponent,
+    LineChartComponent,
+    BarChartComponent
   ],
   imports: [
     CommonModule,
@@ -139,7 +143,10 @@ setTheme('bs4');
     WelomceLetterComponent,
     CustomTextareaComponent,
     CustomModalComponent,
-    AuthorizeComponent
+    AuthorizeComponent,
+    PieChartComponent,
+    LineChartComponent,
+    BarChartComponent
   ]
 })
 export class SharedModule { }

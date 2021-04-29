@@ -102,6 +102,13 @@ const routes: Routes = [
           ).then((m) => m.QueryModelModule),
       },
       {
+        path: 'chart',
+        loadChildren: () =>
+          import(
+            './modules/chart/chart.modules'
+          ).then((m) => m.ChartModule),
+      },
+      {
         path: 'terms-condition',
         loadChildren: () =>
           import('./modules/terms-conditions/terms-conditions.module').then(
